@@ -1,0 +1,1743 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CF Quiz 1 Formula Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,600;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+/* Layout: one reading column (~860px) + a fixed family index on wide screens.
+   Each of the 7 formula families owns a hue (--f1..--f7); everything inside a family
+   (formula boxes, sub-section codes, map rows) is tinted from it through --h. */
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --ink:#141a22; --muted:#5a6472; --line:#dde2e8; --chip:#eef1f4;
+  --accent:#2b59c3; --ok:#157a3f; --bad:#b42318; --tip:#9a5b00;
+  --f1:#0f766e; --f2:#1d4ed8; --f3:#6d28d9; --f4:#b45309; --f5:#be123c; --f6:#4d7c0f; --f7:#a21caf;
+  --h:var(--accent);
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1217; --surface:#161b22; --ink:#e6e9ee; --muted:#9aa4b2; --line:#29313b; --chip:#1f262f;
+    --accent:#8fb0ff; --ok:#4ade80; --bad:#f87171; --tip:#fbbf24;
+    --f1:#5eead4; --f2:#93c5fd; --f3:#c4b5fd; --f4:#fcd34d; --f5:#fda4af; --f6:#bef264; --f7:#f0abfc;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1217; --surface:#161b22; --ink:#e6e9ee; --muted:#9aa4b2; --line:#29313b; --chip:#1f262f;
+  --accent:#8fb0ff; --ok:#4ade80; --bad:#f87171; --tip:#fbbf24;
+  --f1:#5eead4; --f2:#93c5fd; --f3:#c4b5fd; --f4:#fcd34d; --f5:#fda4af; --f6:#bef264; --f7:#f0abfc;
+  color-scheme:dark;
+}
+.fam1{--h:var(--f1)} .fam2{--h:var(--f2)} .fam3{--h:var(--f3)} .fam4{--h:var(--f4)}
+.fam5{--h:var(--f5)} .fam6{--h:var(--f6)} .fam7{--h:var(--f7)}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding-block:28px 96px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+a{color:var(--accent);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+b,strong{font-weight:700}
+
+/* ---------- header ---------- */
+header.top{display:grid;gap:10px;padding-bottom:20px}
+.home{justify-self:start;font:600 .82rem/1 var(--body);color:var(--muted);text-decoration:none;padding:6px 0}
+.home:hover{color:var(--accent)}
+.kicker{margin:0;font:600 .75rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+header.top h1{margin:0;font:700 clamp(1.9rem,4.5vw,2.7rem)/1.08 var(--display);letter-spacing:-.02em;text-wrap:balance}
+.lede{margin:0;max-width:62ch;color:var(--muted)}
+.facts{display:flex;flex-wrap:wrap;gap:8px 28px;margin:8px 0 0;padding:14px 0 0;border-top:1px solid var(--line)}
+.facts div{display:grid;gap:2px}
+.facts dt{font:600 .7rem/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:0;font:600 1rem/1.3 var(--body);font-variant-numeric:tabular-nums}
+
+/* ---------- toolbar ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;margin:0 -8px;padding:10px 8px;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+button{font:600 .85rem/1 var(--body);padding:8px 12px;border-radius:999px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s}
+button:hover{border-color:var(--muted)}
+#practiceBtn{display:inline-flex;align-items:center;gap:8px}
+#practiceBtn::before{content:"";width:26px;height:15px;border-radius:999px;background:var(--line);
+  box-shadow:inset 0 0 0 2px var(--line);transition:background .15s}
+#practiceBtn.on{border-color:var(--accent);color:var(--accent)}
+#practiceBtn.on::before{background:var(--accent);box-shadow:inset -11px 0 0 2px var(--accent),inset 0 0 0 2px var(--accent),inset -11px 0 0 4px var(--surface)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:2px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:6px 11px;color:var(--muted)}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.score{font:600 .8rem/1 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.score b{color:var(--ok)}
+.bar .end{margin-left:auto;display:flex;gap:8px;align-items:center}
+#themeBtn{padding:8px 10px}
+.hint{font-size:.88rem;color:var(--muted);margin:10px 0 0}
+
+/* ---------- side index (wide screens) ---------- */
+nav.side{display:none}
+@media (min-width:1280px){
+  nav.side{display:block;position:fixed;top:24px;left:max(16px, calc(50% - 440px - 252px));width:224px;
+    max-height:calc(100vh - 48px);overflow:auto;font-size:.86rem;line-height:1.35}
+  nav.side .lbl2{font:600 .7rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  nav.side ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+  nav.side a{display:block;padding:5px 10px;border-radius:8px;color:var(--muted);text-decoration:none;border-left:3px solid transparent}
+  nav.side a:hover{color:var(--ink);background:var(--chip)}
+  nav.side a.fam{color:var(--ink);font-weight:700;border-left-color:var(--h)}
+  nav.side a.sub{padding-left:22px;font-size:.82rem}
+  nav.side a.active{background:color-mix(in srgb, var(--h) 12%, transparent);color:var(--ink)}
+  nav.side .famgroup{margin-top:6px}
+}
+
+/* ---------- headings ---------- */
+h2,h3{text-wrap:balance;scroll-margin-top:80px}
+h2{margin:0;font:700 clamp(1.5rem,3.2vw,1.9rem)/1.15 var(--display);letter-spacing:-.015em}
+h2 .num{display:block;margin-bottom:8px;font:600 .74rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--h)}
+h2 .num::before{content:"Family "}
+section.fam{margin-top:72px;padding-top:28px;border-top:1px solid var(--line)}
+section.fam > h2{margin-bottom:14px}
+h2#map{margin-top:56px;margin-bottom:6px}
+h3{margin:44px 0 10px;font:700 1.22rem/1.25 var(--display);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+h3 .num{flex:none;font:700 .78rem/1 var(--mono);padding:5px 8px;border-radius:6px;
+  background:color-mix(in srgb, var(--h) 14%, var(--surface));color:var(--h)}
+h4{margin:28px 0 8px;font:600 .74rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- prose blocks ---------- */
+p{margin:8px 0}
+.big{margin:0 0 14px;max-width:68ch}
+.big p{margin:6px 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;overflow-x:auto}
+.lbl{display:inline-block;font:600 .7rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.formula{background:color-mix(in srgb, var(--h) 7%, var(--surface));border:1px solid color-mix(in srgb, var(--h) 24%, var(--line));
+  border-radius:12px;padding:4px 16px;margin:10px 0;overflow-x:auto}
+.card > .lbl + .formula{font-size:1.18em;margin-top:8px}
+.formula .katex-display{margin:.7em 0}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.katex{font-size:1.06em}
+.qs{color:var(--muted);font-size:.9rem}
+.note,.trap{padding:10px 14px;border-radius:10px;margin:12px 0;font-size:.95rem}
+.note{background:color-mix(in srgb, var(--h) 8%, var(--surface));border:1px solid color-mix(in srgb, var(--h) 20%, var(--line))}
+.trap{background:color-mix(in srgb, var(--tip) 9%, var(--surface));border:1px solid color-mix(in srgb, var(--tip) 28%, var(--line))}
+.trap b:first-child{color:var(--tip)}
+.recipe{margin:8px 0;padding-left:20px;display:grid;gap:6px}
+.recipe li::marker{color:var(--h)}
+
+/* ---------- tables ---------- */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font:600 .7rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.sym td:first-child{white-space:nowrap;width:1%;color:var(--h);font-weight:700}
+.map td{vertical-align:middle}
+.map td.f{white-space:nowrap}
+.map td:last-child{font:500 .82rem/1.4 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.map tr.fam td{background:color-mix(in srgb, var(--h) 10%, var(--surface));font-weight:700;font-size:.92rem;color:var(--ink);
+  border-top:2px solid var(--h);font-family:var(--body)}
+.map tr.fam a{color:var(--h)}
+
+/* ---------- contents ---------- */
+.toc{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.toc>li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.92rem;min-width:0}
+.toc>li>a{display:block;font:700 1rem/1.3 var(--display);color:var(--ink);text-decoration:none;margin-bottom:4px}
+.toc>li>a:hover{color:var(--h)}
+.toc>li.fam1,.toc>li.fam2,.toc>li.fam3,.toc>li.fam4,.toc>li.fam5,.toc>li.fam6,.toc>li.fam7{border-top:3px solid var(--h)}
+.toc ul{list-style:none;padding:0;margin:0;color:var(--muted)}
+.toc ul a{color:var(--muted);text-decoration:none}
+.toc ul a:hover{color:var(--h);text-decoration:underline}
+
+/* ---------- question cards ---------- */
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px 18px;margin:14px 0;overflow-x:auto}
+.qhead{display:flex;gap:8px 10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.qn{font:700 .9rem/1 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.paper{font:600 .72rem/1 var(--mono);padding:4px 8px;border-radius:999px;background:var(--chip);color:var(--muted);white-space:nowrap}
+.tag{font:500 .72rem/1 var(--mono);color:var(--muted);margin-left:auto;white-space:nowrap}
+.q > p{max-width:72ch}
+.q table.data{width:auto;margin:8px 0}
+.q table.data td,.q table.data th{border:1px solid var(--line);padding:5px 12px}
+
+ol.opts{list-style:none;counter-reset:opt;margin:12px 0 4px;padding:0;display:grid;gap:6px}
+ol.opts li{counter-increment:opt;display:flex;gap:12px;align-items:center;padding:8px 12px;border:1px solid var(--line);
+  border-radius:10px;background:var(--surface);line-height:1.45;transition:border-color .15s,background .15s}
+ol.opts li::before{content:counter(opt, upper-alpha);flex:none;width:26px;height:26px;border-radius:50%;
+  display:grid;place-items:center;font:700 .78rem/1 var(--mono);background:var(--chip);color:var(--muted)}
+ol.opts li.ok{border-color:color-mix(in srgb, var(--ok) 55%, var(--line));background:color-mix(in srgb, var(--ok) 9%, var(--surface));font-weight:700}
+ol.opts li.ok::before{background:var(--ok);color:var(--surface)}
+ol.opts li.ok::after{content:"Correct";margin-left:auto;flex:none;font:700 .68rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}
+
+.sol{margin-top:12px;padding:12px 16px;border-radius:12px;font-size:.97rem;overflow-x:auto;
+  background:color-mix(in srgb, var(--ok) 5%, var(--surface));border:1px solid color-mix(in srgb, var(--ok) 22%, var(--line))}
+.sol > .lbl{color:var(--ok);margin-bottom:2px}
+.sol ol{margin:6px 0;padding-left:0;list-style:none;counter-reset:st;display:grid;gap:4px}
+.sol ol li{counter-increment:st;position:relative;padding-left:26px}
+.sol ol li::before{content:counter(st);position:absolute;left:0;top:.45em;font:700 .74rem/1 var(--mono);color:var(--ok);width:16px;text-align:right}
+.sol .why{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);color:var(--muted);font-size:.92rem}
+.sol .why::before{content:"Tip";margin-right:8px;font:700 .68rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--tip)}
+
+.reveal{display:none;margin-top:12px;border-radius:8px}
+body.practice ol.opts li{cursor:pointer}
+body.practice ol.opts li:hover{border-color:var(--muted)}
+body.practice ol.opts li.ok{border-color:var(--line);background:var(--surface);font-weight:inherit}
+body.practice ol.opts li.ok::before{background:var(--chip);color:var(--muted)}
+body.practice ol.opts li.ok::after{content:none}
+body.practice ol.opts li.picked-bad{border-color:color-mix(in srgb, var(--bad) 55%, var(--line));background:color-mix(in srgb, var(--bad) 8%, var(--surface))}
+body.practice ol.opts li.picked-bad::before{background:var(--bad);color:var(--surface)}
+body.practice ol.opts li.picked-bad::after{content:"Not this";margin-left:auto;flex:none;font:700 .68rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bad)}
+body.practice .sol{display:none}
+body.practice .reveal{display:inline-block}
+body.practice .q.shown ol.opts li.ok{border-color:color-mix(in srgb, var(--ok) 55%, var(--line));background:color-mix(in srgb, var(--ok) 9%, var(--surface));font-weight:700}
+body.practice .q.shown ol.opts li.ok::before{background:var(--ok);color:var(--surface)}
+body.practice .q.shown ol.opts li.ok::after{content:"Correct"}
+body.practice .q.shown .sol{display:block}
+.q.hide{display:none}
+
+@media (max-width:600px){
+  body{font-size:16px}
+  .q{padding:14px 14px 16px}
+  .tag{margin-left:0}
+  .bar .end{margin-left:0}
+  .map th{display:none}
+  .map tr{display:block;border-bottom:1px solid var(--line);padding:6px 0}
+  .map td{display:block;border:0;padding:2px 6px}
+  .map tr.fam td{border-top:2px solid var(--h);padding:8px}
+  .map td.f{white-space:normal}
+  .map tr:not(.fam) td:last-child::before{content:"Questions: "}
+}
+</style>
+</head>
+<body>
+<nav class="side" aria-label="Sections">
+<p class="lbl2">Families</p>
+<ol>
+<li><a href="#map" data-t="map">Formula map</a></li>
+<li class="famgroup fam1"><a class="fam" href="#f1" data-t="f1">1 · Growing money forward</a></li>
+<li class="fam1"><a class="sub" href="#f1a" data-t="f1a">1A Find the yearly rate</a></li>
+<li class="fam1"><a class="sub" href="#f1b" data-t="f1b">1B Find the number of years</a></li>
+<li class="fam1"><a class="sub" href="#f1c" data-t="f1c">1C Interest added more than once a year, or continuously</a></li>
+<li class="famgroup fam2"><a class="fam" href="#f2" data-t="f2">2 · Present value and everything built on it</a></li>
+<li class="fam2"><a class="sub" href="#f2a" data-t="f2a">2A PV of several payments</a></li>
+<li class="fam2"><a class="sub" href="#f2b" data-t="f2b">2B Net Present Value</a></li>
+<li class="fam2"><a class="sub" href="#f2c" data-t="f2c">2C Profitability Index</a></li>
+<li class="fam2"><a class="sub" href="#f2d" data-t="f2d">2D Internal Rate of Return</a></li>
+<li class="fam2"><a class="sub" href="#f2e" data-t="f2e">2E Payback period</a></li>
+<li class="famgroup fam3"><a class="fam" href="#f3" data-t="f3">3 · Repeating payments</a></li>
+<li class="fam3"><a class="sub" href="#f3a" data-t="f3a">3A Perpetuity</a></li>
+<li class="fam3"><a class="sub" href="#f3b" data-t="f3b">3B Growing perpetuity &amp; Gordon growth model</a></li>
+<li class="fam3"><a class="sub" href="#f3c" data-t="f3c">3C Annuity</a></li>
+<li class="fam3"><a class="sub" href="#f3d" data-t="f3d">3D Loan EMI</a></li>
+<li class="fam3"><a class="sub" href="#f3e" data-t="f3e">3E SIP / saving every period</a></li>
+<li class="famgroup fam4"><a class="fam" href="#f4" data-t="f4">4 · Returns over many years &amp; the yield curve</a></li>
+<li class="fam4"><a class="sub" href="#f4a" data-t="f4a">4A Year-by-year returns</a></li>
+<li class="fam4"><a class="sub" href="#f4b" data-t="f4b">4B Future one-year rate from the yield curve</a></li>
+<li class="fam4"><a class="sub" href="#f4c" data-t="f4c">4C Yield curve shapes</a></li>
+<li class="famgroup fam5"><a class="fam" href="#f5" data-t="f5">5 · Bonds</a></li>
+<li class="fam5"><a class="sub" href="#f5a" data-t="f5a">5A Bond price, yield and interest-rate changes</a></li>
+<li class="fam5"><a class="sub" href="#f5b" data-t="f5b">5B Maturity &amp; duration</a></li>
+<li class="fam5"><a class="sub" href="#f5c" data-t="f5c">5C Securitization: senior and junior bonds</a></li>
+<li class="fam5"><a class="sub" href="#f5d" data-t="f5d">5D Credit rating agencies</a></li>
+<li class="famgroup fam6"><a class="fam" href="#f6" data-t="f6">6 · Spending across two periods</a></li>
+<li class="famgroup fam7"><a class="fam" href="#f7" data-t="f7">7 · Prices, inflation &amp; real values</a></li>
+<li class="fam7"><a class="sub" href="#f7a" data-t="f7a">7A Real vs nominal interest rate</a></li>
+<li class="fam7"><a class="sub" href="#f7b" data-t="f7b">7B CPI &amp; inflation rate</a></li>
+<li class="fam7"><a class="sub" href="#f7c" data-t="f7c">7C Nominal GDP, real GDP &amp; GDP deflator</a></li>
+</ol>
+</nav>
+<div class="wrap">
+
+<header class="top">
+  <a class="home" href="../../">← All courses</a>
+  <p class="kicker">Corporate Finance · Quiz 1</p>
+  <h1>Formula Sheet</h1>
+</header>
+
+<div class="bar">
+  <button id="practiceBtn" type="button" aria-pressed="false">Practice</button>
+  <div class="seg" role="group" aria-label="Filter by paper">
+    <button class="pf on" data-p="all" type="button">All</button>
+    <button class="pf" data-p="p26" type="button">2026 T1</button>
+    <button class="pf" data-p="p25b" type="button">2025 T3</button>
+    <button class="pf" data-p="p25a" type="button">2025 T1</button>
+  </div>
+  <div class="end">
+    <span id="score" class="score" hidden></span>
+    <button id="themeBtn" type="button" aria-label="Switch light or dark theme">Theme</button>
+  </div>
+</div>
+
+<h4>Contents</h4>
+<ol class="toc">
+  <li><a href="#map">Formula map</a></li>
+  <li class="fam1"><a href="#f1">Family 1 · Growing money forward (compounding)</a>
+    <ul><li><a href="#f1a">Find the yearly rate</a> · <a href="#f1b">Find the number of years</a> · <a href="#f1c">More than once a year / continuous</a></li></ul></li>
+  <li class="fam2"><a href="#f2">Family 2 · Present value and everything built on it</a>
+    <ul><li><a href="#f2a">PV of several payments</a> · <a href="#f2b">NPV</a> · <a href="#f2c">Profitability Index</a> · <a href="#f2d">IRR</a> · <a href="#f2e">Payback period</a></li></ul></li>
+  <li class="fam3"><a href="#f3">Family 3 · Repeating payments (PV/FV shortcuts)</a>
+    <ul><li><a href="#f3a">Perpetuity</a> · <a href="#f3b">Growing perpetuity &amp; Gordon model</a> · <a href="#f3c">Annuity</a> · <a href="#f3d">Loan EMI</a> · <a href="#f3e">SIP / regular saving</a></li></ul></li>
+  <li class="fam4"><a href="#f4">Family 4 · Returns over many years &amp; the yield curve</a>
+    <ul><li><a href="#f4a">Year-by-year returns</a> · <a href="#f4b">Future (forward) rate</a> · <a href="#f4c">Yield curve shapes</a></li></ul></li>
+  <li class="fam5"><a href="#f5">Family 5 · Bonds</a>
+    <ul><li><a href="#f5a">Bond price &amp; yield</a> · <a href="#f5b">Maturity &amp; duration</a> · <a href="#f5c">Securitization</a> · <a href="#f5d">Credit rating agencies</a></li></ul></li>
+  <li class="fam6"><a href="#f6">Family 6 · Spending across two periods (budget line)</a></li>
+  <li class="fam7"><a href="#f7">Family 7 · Prices, inflation &amp; real values</a>
+    <ul><li><a href="#f7a">Real vs nominal interest</a> · <a href="#f7b">CPI &amp; inflation</a> · <a href="#f7c">GDP deflator</a></li></ul></li>
+</ol>
+
+<!-- ================= MAP ================= -->
+<h2 id="map">Formula map</h2>
+<div class="card tbl">
+<table class="map">
+<tr><th>Use it when the question asks…</th><th>Formula</th><th>Questions</th></tr>
+
+<tr class="fam fam1"><td colspan="3"><a href="#f1">1 · Growing money forward</a> — main formula \( FV = PV\,(1+r)^t \)</td></tr>
+<tr><td>What will it grow to?</td><td class="f">\( FV = PV\,(1+r)^t \)</td><td>—</td></tr>
+<tr><td>What yearly rate / annualized return?</td><td class="f">\( r = \left(\frac{FV}{PV}\right)^{1/t} - 1 \)</td><td>2, 21, 56, 252, 256, 262, 273</td></tr>
+<tr><td>How many years?</td><td class="f">\( t = \frac{\log(FV/PV)}{\log(1+r)} \)</td><td>14, 46</td></tr>
+<tr><td>Interest added n times a year / continuously</td><td class="f">\( PV\left(1+\frac{r}{n}\right)^{n t} \;\;/\;\; PV\,e^{r t} \)</td><td>6, 22, 47, 254</td></tr>
+
+<tr class="fam fam2"><td colspan="3"><a href="#f2">2 · Present value</a> — main formula \( PV = \frac{FV}{(1+r)^t} \)</td></tr>
+<tr><td>Value today of several payments</td><td class="f">add the PV of each payment</td><td>253</td></tr>
+<tr><td>Is the project worth it? (NPV)</td><td class="f">\( NPV = \text{PV of money in} - \text{cost} \)</td><td>25, 58, 275</td></tr>
+<tr><td>Profitability Index</td><td class="f">\( PI = \frac{\text{PV of money in}}{\text{cost}} \)</td><td>4, 57, 259</td></tr>
+<tr><td>IRR</td><td class="f">the \(r\) that makes \(NPV = 0\)</td><td>13, 55, 258, 270</td></tr>
+<tr><td>Payback period (no PV used)</td><td class="f">years until money in ≥ cost</td><td>17, 48, 260</td></tr>
+
+<tr class="fam fam3"><td colspan="3"><a href="#f3">3 · Repeating payments</a> — first payment comes one period from now</td></tr>
+<tr><td>Same amount forever</td><td class="f">\( PV = \frac{C}{r} \)</td><td>10</td></tr>
+<tr><td>Growing amount forever / share price</td><td class="f">\( PV = \frac{C_1}{r-g} \)</td><td>255, 5, 50, 257</td></tr>
+<tr><td>Same amount for T periods (value today)</td><td class="f">\( PV = C \times \frac{1-(1+r)^{-T}}{r} \)</td><td>60</td></tr>
+<tr><td>Loan EMI (same formula, find C)</td><td class="f">\( EMI = \frac{\text{Loan}\times r}{1-(1+r)^{-T}} \)</td><td>9, 63, 269</td></tr>
+<tr><td>Saving every period (value at the end)</td><td class="f">\( FV = C \times \frac{(1+r)^{T}-1}{r} \)</td><td>24, 15, 271</td></tr>
+
+<tr class="fam fam4"><td colspan="3"><a href="#f4">4 · Returns over many years</a> — main idea: growth factors multiply</td></tr>
+<tr><td>Return in year 2 from the total</td><td class="f">\( (1+R_{total}) = (1+r_1)(1+r_2) \)</td><td>23, 261</td></tr>
+<tr><td>Future one-year rate from the yield curve</td><td class="f">\( (1+r_2)^2 = (1+r_1)(1+f) \)</td><td>65</td></tr>
+<tr><td>Shape of the yield curve</td><td class="f">rate (y) vs time to maturity (x)</td><td>8, 54, 268</td></tr>
+
+<tr class="fam fam5"><td colspan="3"><a href="#f5">5 · Bonds</a></td></tr>
+<tr><td>Bond price, yield, rate change</td><td class="f">\( \text{Price} = \frac{\text{Face}}{(1+r)^T} \)</td><td>45, 19, 64, 274</td></tr>
+<tr><td>Maturity / duration</td><td class="f">\( D = \frac{\sum t \times C_t}{\sum C_t} \)</td><td>26, 11, 51, 263</td></tr>
+<tr><td>Senior / junior default chance</td><td class="f">perfectly linked bonds: both = \(p\)</td><td>20, 52, 267</td></tr>
+<tr><td>Credit rating agencies</td><td class="f">S&amp;P, Moody’s, Fitch</td><td>276</td></tr>
+
+<tr class="fam fam6"><td colspan="3"><a href="#f6">6 · Two-period budget</a> — main formula \( c_1 + \frac{c_2}{1+r} = m_1 + \frac{m_2}{1+r} \)</td></tr>
+<tr><td>Slope / most you can spend now</td><td class="f">slope \(= -(1+r)\); max \(c_1 = m_1 + \frac{m_2}{1+r}\)</td><td>16, 59, 265</td></tr>
+
+<tr class="fam fam7"><td colspan="3"><a href="#f7">7 · Prices &amp; inflation</a></td></tr>
+<tr><td>Real / nominal / inflation</td><td class="f">\( (1+i) = (1+r)(1+\pi) \)</td><td>7, 53, 266</td></tr>
+<tr><td>CPI and inflation rate</td><td class="f">\( CPI = \frac{\text{basket cost now}}{\text{basket cost in base year}}\times100 \)</td><td>12, 61, 62, 264</td></tr>
+<tr><td>GDP deflator</td><td class="f">\( \text{Deflator} = \frac{\text{Nominal GDP}}{\text{Real GDP}}\times100 \)</td><td>3, 18, 49, 66, 272</td></tr>
+</table>
+</div>
+
+<!-- ================= FAMILY 1 ================= -->
+<section class="fam fam1">
+<h2 id="f1"><span class="num">1</span>Growing money forward (compounding)</h2>
+<div class="big">
+  <p><b>The idea.</b> When you keep money in a bank, it earns interest every year. Next year you earn interest on that interest too. This is called <b>compounding</b>. Each year your money gets <b>multiplied</b> by \((1+r)\).</p>
+</div>
+<div class="card">
+  <span class="lbl">Main formula</span>
+  <div class="formula">\[ FV = PV \times (1+r)^t \]</div>
+  <div class="tbl"><table class="sym">
+    <tr><th>Letter</th><th>Meaning in simple words</th></tr>
+    <tr><td>\(PV\)</td><td>Money you put in today (present value)</td></tr>
+    <tr><td>\(FV\)</td><td>Money you will have later (future value)</td></tr>
+    <tr><td>\(r\)</td><td>Interest rate per year, written as a decimal (10% = 0.10)</td></tr>
+    <tr><td>\(t\)</td><td>Number of years</td></tr>
+  </table></div>
+  <p><b>One formula, three types of question.</b> Find out which letter is missing:</p>
+  <ul class="recipe">
+    <li><b>Missing FV</b> (“what will it grow to?”): put the numbers in and calculate.</li>
+    <li><b>Missing r</b> (“what is the rate?”, “annualized return?”): <br>
+      Step 1: Growth \(= FV \div PV\). &nbsp; Step 2: Take the \(t\)-th root, which is \(\text{growth}^{1/t}\). &nbsp; Step 3: Subtract 1.</li>
+    <li><b>Missing t</b> (“how many years?”): \( t = \log(FV \div PV) \div \log(1+r) \). You can use log or ln; just use the same one on the top and the bottom.</li>
+  </ul>
+  <div class="note"><b>Mini example:</b> Rs 100 at 10% for 2 years becomes \(100 \times 1.1 \times 1.1 = 121\), not 120. The extra Re 1 is interest earned on interest.</div>
+  <div class="trap"><b>Trap:</b> Never divide the total growth by the number of years. “Triples in 10 years” is <b>not</b> 200% ÷ 10 = 20% per year.</div>
+</div>
+
+<h3 id="f1a"><span class="num">1A</span>Find the yearly rate (annualized rate of return)</h3>
+<div class="formula">\[ r = \left(\frac{FV}{PV}\right)^{1/t} - 1 \]</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q2</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Ria invested Rs 10,000 in a fund that tripled her investment 12 years later. What was the approximate annual rate of interest (compounded annually) of the fund?</p>
+  <ol class="opts"><li>6.12%</li><li class="ok">9.59%</li><li>11.60%</li><li>13.05%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>“Tripled” means the money became 3 times. So growth \(= 3\) and \(t = 12\).</li>
+      <li>\( 3^{1/12} = 1.0959 \)</li>
+      <li>\( 1.0959 - 1 = 0.0959 = 9.59\% \)</li>
+    </ol>
+    <p>Answer: <b>B, 9.59%</b>. The Rs 10,000 does not matter here. Only the growth of “3 times” matters.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q21</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>You go to an art exhibition in 2026 and see a painting is priced at Rs 2,00,000. You search online and find out that the painting was purchased for Rs 200 by a prince in 1926. What is the annualized rate of return that the painting has accrued?</p>
+  <ol class="opts"><li>4.52%</li><li class="ok">7.15%</li><li>9.01%</li><li>10.00%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Years: \(t = 2026 - 1926 = 100\).</li>
+      <li>Growth \(= 2{,}00{,}000 \div 200 = 1000\).</li>
+      <li>\( 1000^{1/100} = 1.0715 \), so \( r = 0.0715 = 7.15\% \).</li>
+    </ol>
+    <p>Answer: <b>B, 7.15%</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q56</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>During the cleaning of house, you find an old sword that belonged to your grandfather. Your grandfather purchased the sword 60 years ago for Rs 60. You go to the market and find out that the current value of the sword is Rs 9,000. What is the annualized rate of return that the sword has earned?</p>
+  <ol class="opts"><li>60%</li><li>10.87%</li><li class="ok">8.71%</li><li>2.50%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Growth \(= 9000 \div 60 = 150\), and \(t = 60\) years.</li>
+      <li>\( 150^{1/60} = 1.0871 \), so \( r = 8.71\% \).</li>
+    </ol>
+    <p>Answer: <b>C, 8.71%</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q252</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>What should be the rate of interest per year (annually compounded) so that your money triples in 10 years?</p>
+  <ol class="opts"><li>5.42%</li><li>7.60%</li><li class="ok">11.61%</li><li>20.00%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Triples means growth \(= 3\), and \(t = 10\).</li>
+      <li>\( 3^{1/10} = 1.1161 \), so \( r = 11.61\% \).</li>
+    </ol>
+    <p>Answer: <b>C, 11.61%</b>.</p>
+    <p class="why">Why not 20%? That comes from 200% ÷ 10 years, which ignores interest on interest.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q256</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>You discover an antique in your attic that your father purchased 40 years ago for Rs 100. You auction it and receive Rs 50,000 for this item today. What is the annualized rate of return that is earned for the antique?</p>
+  <ol class="opts"><li>8.32%</li><li>12.50%</li><li class="ok">16.81%</li><li>50.00%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Growth \(= 50{,}000 \div 100 = 500\), and \(t = 40\).</li>
+      <li>\( 500^{1/40} = 1.1681 \), so \( r = 16.81\% \).</li>
+    </ol>
+    <p>Answer: <b>C, 16.81%</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q262</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>What is the annualized rate of return of an investment of 500 units that promises to return 800 units in 8 years?</p>
+  <ol class="opts"><li>60.0%</li><li>16.0%</li><li>8.17%</li><li class="ok">6.05%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Growth \(= 800 \div 500 = 1.6\), and \(t = 8\).</li>
+      <li>\( 1.6^{1/8} = 1.0605 \), so \( r = 6.05\% \).</li>
+    </ol>
+    <p>Answer: <b>D, 6.05%</b>.</p>
+    <p class="why">60% is the total gain over all 8 years, not the yearly rate.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q273</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>What is the annualized rate of return of an investment of Rs 10,000 that promises to return 20,000 in 5 years?</p>
+  <ol class="opts"><li class="ok">14.87%</li><li>11.61%</li><li>7.18%</li><li>20.00%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Growth \(= 20{,}000 \div 10{,}000 = 2\), and \(t = 5\).</li>
+      <li>\( 2^{1/5} = 1.1487 \), so \( r = 14.87\% \).</li>
+    </ol>
+    <p>Answer: <b>A, 14.87%</b>.</p>
+    <p class="why">20% comes from 100% ÷ 5. That is wrong because it ignores compounding.</p>
+  </div>
+</div>
+
+<h3 id="f1b"><span class="num">1B</span>Find the number of years</h3>
+<div class="formula">\[ t = \frac{\log(FV/PV)}{\log(1+r)} \qquad \text{(for doubling, } FV/PV = 2\text{)} \]</div>
+<p class="qs">Quick check for doubling (Rule of 72): years ≈ 72 ÷ rate in %. At 8%, that gives 72 ÷ 8 = 9 years.</p>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q14</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>How long will it take to double your money if the interest rate is 8% per annum (compounded annually)?</p>
+  <ol class="opts"><li>7 years</li><li class="ok">9 years</li><li>11 years</li><li>13 years</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>We need \( (1.08)^t = 2 \).</li>
+      <li>\( t = \log 2 \div \log 1.08 = 0.3010 \div 0.0334 = 9.0 \)</li>
+    </ol>
+    <p>Answer: <b>B, 9 years</b>. The Rule of 72 gives the same: 72 ÷ 8 = 9.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q46</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>If you want to double your money at 5% annual rate of interest, how many years will it take?</p>
+  <ol class="opts">
+    <li class="ok">\( log(2)/log(1.05) \)</li>
+    <li>\( log(1.05)/log(2) \)</li>
+    <li>\( log(2)/log(0.05) \)</li>
+    <li>\( log(0.05)/log(2) \)</li>
+  </ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Every year the money is multiplied by 1.05, so we need \( (1.05)^t = 2 \).</li>
+      <li>Take log of both sides: \( t \times \log(1.05) = \log(2) \).</li>
+      <li>Divide: \( t = \log(2) \div \log(1.05) \approx 14.2 \) years.</li>
+    </ol>
+    <p>Answer: <b>A</b>.</p>
+    <p class="why">C and D use 0.05, but money is multiplied by 1.05 each year, not by 0.05. B is the right numbers turned upside down.</p>
+  </div>
+</div>
+
+<h3 id="f1c"><span class="num">1C</span>Interest added more than once a year, or continuously</h3>
+<div class="card">
+  <p>This is the same main formula. If interest is added \(n\) times a year, split the rate into \(n\) pieces (\(r/n\)) and use \(n\) times as many periods (\(n \times t\)). If interest is added every single moment (“continuously compounded”), use \(e\).</p>
+  <div class="formula">\[ FV = PV \times \left(1+\frac{r}{n}\right)^{n\,t} \qquad\qquad \text{Continuous: } FV = PV \times e^{\,r\,t} \]</div>
+  <div class="tbl"><table class="sym">
+    <tr><td>\(n\)</td><td>How many times a year interest is added: 1 = yearly, 2 = half-yearly, 4 = quarterly, 12 = monthly, 365 = daily</td></tr>
+    <tr><td>\(e\)</td><td>A fixed number, about 2.718. Use the \(e^x\) key on the calculator.</td></tr>
+  </table></div>
+  <div class="note"><b>Rule:</b> for the same rate, adding interest more often gives slightly more money. Continuous compounding gives the most.</div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q22</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Which of the following yields the highest return on Rs 100 invested for 1 year?</p>
+  <ol class="opts"><li>10% compounded annually</li><li>10% compounded semi-annually</li><li>10% compounded quarterly</li><li class="ok">10% compounded monthly</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>Work out \(100 \times (1 + 0.1/n)^n\) for each:</p>
+    <ol>
+      <li>Annually (\(n=1\)): 110.00</li>
+      <li>Semi-annually (\(n=2\)): 110.25</li>
+      <li>Quarterly (\(n=4\)): 110.38</li>
+      <li>Monthly (\(n=12\)): <b>110.47</b></li>
+    </ol>
+    <p>Answer: <b>D, monthly</b>. The more often interest is added, the more you get.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q6</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>An asset earns an annual interest rate of 6% compounded continuously. If you invest Rs 2,000 today, what will be the value of the investment after 5 years? (Rounded off to nearest integer)</p>
+  <ol class="opts"><li>Rs 2,600</li><li class="ok">Rs 2,700</li><li>Rs 2,550</li><li>Rs 2,880</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( r \times t = 0.06 \times 5 = 0.3 \)</li>
+      <li>\( e^{0.3} = 1.3499 \)</li>
+      <li>\( 2000 \times 1.3499 = 2699.7 \approx 2700 \)</li>
+    </ol>
+    <p>Answer: <b>B, Rs 2,700</b>.</p>
+    <p class="why">Rs 2,600 is simple interest (2000 + 5 × 120). That would mean no interest on interest.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q47</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>You purchased an asset today for Rs 1,000. Suppose the asset earns an annual interest rate of 7% which is continuously compounded. What will be the value of the asset after 5 years (Rounded off to nearest integer)?</p>
+  <ol class="opts"><li>Rs 1350</li><li>Rs 1402</li><li class="ok">Rs 1419</li><li>Rs 1500</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( r \times t = 0.07 \times 5 = 0.35 \)</li>
+      <li>\( e^{0.35} = 1.4191 \)</li>
+      <li>\( 1000 \times 1.4191 = 1419.07 \approx 1419 \)</li>
+    </ol>
+    <p>Answer: <b>C, Rs 1419</b>.</p>
+    <p class="why">Rs 1350 is simple interest. Rs 1402 is yearly compounding, \(1000 \times 1.07^5\).</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q254</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Suppose an asset earns an annual interest rate of 9% which is continuously compounded. If the asset sells for Rs 500 today, what will be its value after 3 years (Rounded off to nearest integer)?</p>
+  <ol class="opts"><li>Rs 382</li><li>Rs 500</li><li>Rs 635</li><li class="ok">Rs 655</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( r \times t = 0.09 \times 3 = 0.27 \)</li>
+      <li>\( e^{0.27} = 1.3100 \)</li>
+      <li>\( 500 \times 1.3100 = 654.98 \approx 655 \)</li>
+    </ol>
+    <p>Answer: <b>D, Rs 655</b>.</p>
+    <p class="why">Rs 635 is simple interest (500 × 1.27). Rs 382 is \(500 \times e^{-0.27}\), which moves backward in time instead of forward.</p>
+  </div>
+</div>
+
+</section>
+<!-- ================= FAMILY 2 ================= -->
+<section class="fam fam2">
+<h2 id="f2"><span class="num">2</span>Present value (PV) and everything built on it</h2>
+<div class="big">
+  <p><b>The idea.</b> Rs 100 next year is worth <b>less</b> than Rs 100 today. Money you have today can go into the bank and grow. Present value answers one question: <i>“How much is this future money worth today?”</i></p>
+  <p>It is Family 1 run backwards. There we multiplied by \((1+r)^t\). Here we <b>divide</b> by it. This is called <b>discounting</b>.</p>
+</div>
+<div class="card">
+  <span class="lbl">Main formula</span>
+  <div class="formula">\[ PV = \frac{FV}{(1+r)^t} \]</div>
+  <div class="tbl"><table class="sym">
+    <tr><td>\(FV\)</td><td>Money you will receive in the future</td></tr>
+    <tr><td>\(r\)</td><td>Interest rate. The question may call it the discount rate, cost of capital, required rate of return or prevailing interest rate. They all mean the same thing here.</td></tr>
+    <tr><td>\(t\)</td><td>How many years away the money is</td></tr>
+  </table></div>
+  <p><b>Every tool in this family is built from PV:</b></p>
+  <div class="tbl"><table>
+    <tr><th>Tool</th><th>What it is, in simple words</th><th>Good project if…</th></tr>
+    <tr><td>PV of many payments</td><td>Find the PV of each payment, then add them</td><td>—</td></tr>
+    <tr><td>NPV</td><td>(PV of all money coming in) <b>minus</b> (cost today)</td><td>NPV &gt; 0</td></tr>
+    <tr><td>PI</td><td>(PV of all money coming in) <b>divided by</b> (cost today)</td><td>PI &gt; 1</td></tr>
+    <tr><td>IRR</td><td>The interest rate that makes NPV exactly 0</td><td>IRR &gt; required rate</td></tr>
+    <tr><td>Payback</td><td>Years until the money received adds up to the cost (<b>no PV used</b>)</td><td>Shorter is better</td></tr>
+  </table></div>
+  <p class="qs">Bond prices (Family 5) and perpetuity, annuity and EMI (Family 3) are also PV, worked out with shortcuts.</p>
+</div>
+
+<h3 id="f2a"><span class="num">2A</span>PV of several payments</h3>
+<div class="formula">\[ PV = \frac{C_1}{(1+r)^{1}} + \frac{C_2}{(1+r)^{2}} + \dots + \frac{C_t}{(1+r)^{t}} \]</div>
+<p class="qs">Each payment is divided by \((1+r)\) raised to <b>its own</b> year.</p>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q253</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>An investment is expected to yield Rs 2,000 in two years, Rs 4,000 in 4 years, and Rs 6,000 in six years. If the constant rate of return is 10% (compounded annually), what is the present value of this investment (Rounded off to nearest integer)?</p>
+  <ol class="opts"><li>Rs 12,000</li><li>Rs 8,196</li><li class="ok">Rs 7,772</li><li>Rs 6,000</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( 2000 \div 1.1^2 = 1652.89 \)</li>
+      <li>\( 4000 \div 1.1^4 = 2732.05 \)</li>
+      <li>\( 6000 \div 1.1^6 = 3386.84 \)</li>
+      <li>Add them: \( 1652.89 + 2732.05 + 3386.84 = 7771.79 \approx 7772 \)</li>
+    </ol>
+    <p>Answer: <b>C, Rs 7,772</b>.</p>
+    <p class="why">Rs 12,000 just adds the amounts without discounting. That ignores that later money is worth less.</p>
+  </div>
+</div>
+
+<h3 id="f2b"><span class="num">2B</span>Net Present Value (NPV)</h3>
+<div class="formula">\[ NPV = \underbrace{\frac{C_1}{(1+r)} + \frac{C_2}{(1+r)^2} + \dots}_{\text{PV of money coming in}} \;-\; \text{Cost today} \]</div>
+<div class="note"><b>Rule:</b> NPV more than 0 means the project is worth doing. If you can pick <b>only one</b> project, pick the one with the <b>highest NPV</b>.</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q25</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>You are looking to invest in one new project, and you have three options: Project-A is expected to generate Rs 10 lakh after two years and Rs 20 lakh after 5 years; Project-B is expected to generate Rs 6 lakh each year for 6 years (beginning next year); Project-C is expected to generate Rs 40 lakh after 6 years. Each one of the projects costs Rs 25 lakh today. The required rate of return on these projects is 10%. Which one of the projects should you choose according to NPV criterion?</p>
+  <ol class="opts"><li>Project-A</li><li class="ok">Project-B</li><li>Project-C</li><li>All three projects have the same NPV</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span> (all in Rs lakh)
+    <ol>
+      <li><b>A:</b> \( 10 \div 1.1^2 + 20 \div 1.1^5 = 8.26 + 12.42 = 20.68 \). NPV \(= 20.68 - 25 = -4.32\)</li>
+      <li><b>B:</b> 6 lakh every year for 6 years is an annuity (see <a href="#f3c">3C</a>). PV \(= 6 \times \frac{1 - 1.1^{-6}}{0.1} = 6 \times 4.3553 = 26.13\). NPV \(= 26.13 - 25 = +1.13\)</li>
+      <li><b>C:</b> \( 40 \div 1.1^6 = 22.58 \). NPV \(= 22.58 - 25 = -2.42\)</li>
+    </ol>
+    <p>Only B has a positive NPV. Answer: <b>B, Project-B</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q58</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>ABC Corporation is looking to invest in one new project, and they have three options: Project-A is expected to generate Rs 30 lakh after two years and Rs 40 lakh after 5 years; Project-B is expected to generate Rs 10 lakh each year for 6 years (beginning next year); Project-C is expected to generate Rs 100 lakh after 10 years. Each one of the project costs Rs 40 lakh today. The required rate of return on these projects is 10%. Which one of the projects should ABC Corporation choose according to NPV criterion?</p>
+  <ol class="opts"><li class="ok">Project-A</li><li>Project-B</li><li>Project-C</li><li>None of these</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span> (all in Rs lakh)
+    <ol>
+      <li><b>A:</b> \( 30 \div 1.1^2 + 40 \div 1.1^5 = 24.79 + 24.84 = 49.63 \). NPV \(= 49.63 - 40 = +9.63\)</li>
+      <li><b>B:</b> annuity: \( 10 \times 4.3553 = 43.55 \). NPV \(= 43.55 - 40 = +3.55\)</li>
+      <li><b>C:</b> \( 100 \div 1.1^{10} = 38.55 \). NPV \(= 38.55 - 40 = -1.45\)</li>
+    </ol>
+    <p>A has the highest NPV. Answer: <b>A, Project-A</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q275</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Sahitya Inc. is considering two different projects, A and B, for investment and can choose at most one project to invest in. Project A costs Rs 12,000 and is expected to generate Rs 5,000 in year one and Rs 10,000 in year two. Project B costs Rs 10,000 and is expected to generate Rs 5,000 in year one, Rs 4,000 in year two, Rs 3,000 in year three, and Rs 2,000 in year four. Sahitya Inc.’s required rate of return for these projects is 5%. Suppose at most one project can be chosen. Which of the following is true?</p>
+  <ol class="opts">
+    <li class="ok">Sahitya Inc. should prefer Project B as it has a higher net present value than Project A.</li>
+    <li>Sahitya Inc. should prefer Project A as it has a higher net present value than Project B.</li>
+    <li>Sahitya Inc. is indifferent between Project A and Project B as both have the same net present value.</li>
+    <li>Sahitya Inc. should not invest in either projects A or B as both have a negative net present value.</li>
+  </ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li><b>A:</b> \( 5000 \div 1.05 + 10000 \div 1.05^2 = 4761.90 + 9070.29 = 13832.20 \). NPV \(= 13832.20 - 12000 = 1832.20\)</li>
+      <li><b>B:</b> \( 4761.90 + 3628.12 + 2591.51 + 1645.40 = 12626.94 \). NPV \(= 12626.94 - 10000 = 2626.94\)</li>
+    </ol>
+    <p>Both are positive, but B is bigger. Answer: <b>A</b> (prefer Project B).</p>
+  </div>
+</div>
+
+<h3 id="f2c"><span class="num">2C</span>Profitability Index (PI)</h3>
+<div class="formula">\[ PI = \frac{\text{PV of money coming in}}{\text{Cost today}} \]</div>
+<div class="note"><b>Rule:</b> PI more than 1 means you get back more value than you put in, so the project is good. PI &gt; 1 is the same as NPV &gt; 0.</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q4</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Consider a project with an initial investment of Rs 5,000 in Year 0. It generates cash flows of Rs 3,000 in Year 1 and Rs 3,000 in Year 2. If the discount rate is 10%, what is the Profitability Index (PI)?</p>
+  <ol class="opts"><li class="ok">1.04</li><li>0.96</li><li>1.21</li><li>1.15</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>PV of money in: \( 3000 \div 1.1 + 3000 \div 1.1^2 = 2727.27 + 2479.34 = 5206.61 \)</li>
+      <li>\( PI = 5206.61 \div 5000 = 1.04 \)</li>
+    </ol>
+    <p>Answer: <b>A, 1.04</b>.</p>
+    <p class="why">1.21 comes from 6000 ÷ 5000, which forgets to discount.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q57</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>ABC Corporation is looking to invest in one new project, and they have three options: Project-A is expected to generate Rs 30 lakh after two years and Rs 40 lakh after 5 years; Project-B is expected to generate Rs 10 lakh each year for 6 years (beginning next year); Project-C is expected to generate Rs 100 lakh after 10 years. Each one of the project costs Rs 40 lakh today. The required rate of return on these projects is 10%. What is the profitability index of Project-B?</p>
+  <ol class="opts"><li class="ok">1.09</li><li>1.19</li><li>1.88</li><li>0.88</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Project-B pays 10 lakh a year for 6 years, which is an annuity (<a href="#f3c">3C</a>): PV \(= 10 \times \frac{1 - 1.1^{-6}}{0.1} = 10 \times 4.3553 = 43.55\) lakh.</li>
+      <li>\( PI = 43.55 \div 40 = 1.09 \)</li>
+    </ol>
+    <p>Answer: <b>A, 1.09</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q259</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>There is a project which requires an initial investment of 500 units today. This project pays off 250 units after 2 years, 250 units after 4 years and 250 units after 6 years. If the prevailing constant interest rate in the economy is 10% (compounded annually) then what is the profitability index of the project?</p>
+  <ol class="opts"><li>18.48</li><li>4.68</li><li class="ok">1.04</li><li>0.80</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( 250 \div 1.1^2 = 206.61 \), \( 250 \div 1.1^4 = 170.75 \), \( 250 \div 1.1^6 = 141.12 \)</li>
+      <li>PV of money in \(= 206.61 + 170.75 + 141.12 = 518.48\)</li>
+      <li>\( PI = 518.48 \div 500 = 1.04 \)</li>
+    </ol>
+    <p>Answer: <b>C, 1.04</b>.</p>
+    <p class="why">18.48 is the NPV (518.48 − 500), not the PI. Watch for this trap.</p>
+  </div>
+</div>
+
+<h3 id="f2d"><span class="num">2D</span>Internal Rate of Return (IRR)</h3>
+<div class="formula">\[ \text{IRR is the } r \text{ for which } \; \frac{C_1}{(1+r)} + \frac{C_2}{(1+r)^2} + \dots = \text{Cost today} \quad (\text{so } NPV = 0) \]</div>
+<ul class="recipe">
+  <li><b>Only one payment later?</b> Then it is just Family 1: \( IRR = (\text{Payoff} \div \text{Cost})^{1/t} - 1 \).</li>
+  <li><b>Several payments?</b> Try each option as \(r\). The one that makes the PV equal to the cost is the IRR.</li>
+</ul>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q13</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>An investment offers Rs 7,000 in Year 1 and Rs 6,000 in Year 2. If the current cost of this investment is Rs 10,000, what is the Internal Rate of Return (IRR) approximately?</p>
+  <ol class="opts"><li>8%</li><li>10%</li><li>15%</li><li class="ok">20%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>Try \(r = 20\%\):</p>
+    <ol>
+      <li>\( 7000 \div 1.2 = 5833.33 \)</li>
+      <li>\( 6000 \div 1.2^2 = 6000 \div 1.44 = 4166.67 \)</li>
+      <li>Total \(= 10{,}000\), exactly the cost, so NPV = 0.</li>
+    </ol>
+    <p>Answer: <b>D, 20%</b>. (At any smaller rate, the PV is more than 10,000.)</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q55</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Suppose there is a new project that demands an investment of Rs 10 lakh today and promises to pay off after two years. If the estimated internal rate of return of the project is 12%, then what amount is paid off on the payment date (after two years)?</p>
+  <ol class="opts"><li>Rs 12 lakh</li><li>Rs 12.400 lakh</li><li class="ok">Rs 12.544 lakh</li><li>Rs 12.838 lakh</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>There is only one payment, so the IRR works like a normal interest rate (Family 1).</p>
+    <ol>
+      <li>Payoff \(= 10 \times 1.12^2 = 10 \times 1.2544 = 12.544\) lakh</li>
+    </ol>
+    <p>Answer: <b>C, Rs 12.544 lakh</b>.</p>
+    <p class="why">Rs 12.4 lakh is simple interest (10 + 2 × 1.2), which misses interest on interest.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q258</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Suppose an investment costs Rs 6,000 today and pays off Rs 7,500 after two years. What is the internal rate of return on this investment?</p>
+  <ol class="opts"><li>25.00%</li><li>17.47%</li><li class="ok">11.80%</li><li>8.64%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Growth \(= 7500 \div 6000 = 1.25\), and \(t = 2\).</li>
+      <li>\( 1.25^{1/2} = \sqrt{1.25} = 1.1180 \), so \( IRR = 11.80\% \).</li>
+    </ol>
+    <p>Answer: <b>C, 11.80%</b>.</p>
+    <p class="why">25% is the total gain over both years together, not per year.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q270</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>Which of the following statements is true about the internal rate of return?</p>
+  <ol class="opts">
+    <li>The internal rate of return is the rate at which the net present value of the cashflows is maximized.</li>
+    <li class="ok">The internal rate of return is the rate at which the net present value of the cashflows is zero.</li>
+    <li>The internal rate of return is the rate at which the net present value of the cashflows is minimized.</li>
+    <li>The internal rate of return is always greater than the cost of capital.</li>
+  </ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>This is the definition: IRR is the rate that makes NPV exactly <b>zero</b>. Answer: <b>B</b>.</p>
+    <p class="why">D is false. A bad project can have an IRR lower than the cost of capital, which is exactly why you would reject it.</p>
+  </div>
+</div>
+
+<h3 id="f2e"><span class="num">2E</span>Payback period</h3>
+<div class="card">
+  <p><b>Payback period</b> = the number of years until the money you have received adds up to the cost. Keep a running total year by year. <b>No discounting is used.</b></p>
+  <p>It tells you how <b>fast</b> you get your money back. It ignores what happens after that and ignores the time value of money.</p>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q17</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>A project has the following cash flows: Year 0: -10000, Year 1: 500, Year 2: 1000, Year 3: 1500, Year 4: 2000, Year 5: 2500, Year 6: 2500, Year 7: 2500. What is the Payback Period?</p>
+  <ol class="opts"><li>2 years</li><li>4 years</li><li class="ok">6 years</li><li>7 years</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>Running total of money received:</p>
+    <ol>
+      <li>Year 1: 500 → Year 2: 1,500 → Year 3: 3,000 → Year 4: 5,000 → Year 5: 7,500 → <b>Year 6: 10,000</b></li>
+    </ol>
+    <p>The total reaches the cost of 10,000 in year 6. Answer: <b>C, 6 years</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q48</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>Which rule helps an entrepreneur with limited capital get back invested money fastest in high interest environments?</p>
+  <ol class="opts"><li>NPV</li><li class="ok">Payback</li><li>IRR</li><li>Profitability Index</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>“Get back invested money fastest” is exactly what the payback period measures. Answer: <b>B, Payback</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q260</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Consider the following three projects which have initial cost of Rs 5,000 today:<br>
+  Project 1: It pays Rs 200 starting next year and pays the same amount for 50 years.<br>
+  Project 2: It pays Rs 8,000 after five years from today. There are no interim payments.<br>
+  Project 3: It pays Rs 2000 next year and Rs 4000 two years from today.<br>
+  Assume that the prevailing interest rate is 4%; which of the projects has the least payback period?</p>
+  <ol class="opts"><li>All three projects have the same payback period.</li><li>Project 1</li><li>Project 2</li><li class="ok">Project 3</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li><b>Project 1:</b> 200 a year. It needs \(5000 \div 200 = 25\) years.</li>
+      <li><b>Project 2:</b> nothing comes in until year 5, so 5 years.</li>
+      <li><b>Project 3:</b> 2000 + 4000 = 6000 by year 2, which is already more than 5000. So 2 years.</li>
+    </ol>
+    <p>Answer: <b>D, Project 3</b>. The 4% rate is not needed for payback. Even if you discount at 4%, Project 3 still pays back in 2 years (1923 + 3698 = 5621).</p>
+  </div>
+</div>
+
+</section>
+<!-- ================= FAMILY 3 ================= -->
+<section class="fam fam3">
+<h2 id="f3"><span class="num">3</span>Repeating payments (shortcuts for PV and FV)</h2>
+<div class="big">
+  <p><b>The idea.</b> When the same payment repeats many times (rent, EMI, SIP, dividends), finding the PV of each payment one by one takes too long. These formulas are <b>shortcuts</b> that give the same answer as adding up every payment from Family 2.</p>
+  <p>All of them assume the <b>first payment comes one period from now</b>. In the papers this is written as “beginning next year” or “starting next month”.</p>
+</div>
+<div class="card tbl">
+  <table>
+    <tr><th>Payment pattern</th><th>Shortcut</th><th>Gives</th></tr>
+    <tr><td>Same amount \(C\) <b>forever</b> (perpetuity)</td><td>\( \dfrac{C}{r} \)</td><td>value today</td></tr>
+    <tr><td>Amount grows by \(g\) every year, forever (growing perpetuity, share price)</td><td>\( \dfrac{C_1}{r-g} \)</td><td>value today</td></tr>
+    <tr><td>Same amount \(C\) for \(T\) periods (annuity)</td><td>\( C \times \dfrac{1-(1+r)^{-T}}{r} \)</td><td>value today</td></tr>
+    <tr><td>Loan EMI: the same annuity formula, but now you know the loan and want \(C\)</td><td>\( \dfrac{\text{Loan}\times r}{1-(1+r)^{-T}} \)</td><td>payment per period</td></tr>
+    <tr><td>Saving \(C\) every period (SIP)</td><td>\( C \times \dfrac{(1+r)^{T}-1}{r} \)</td><td>value at the <b>end</b></td></tr>
+  </table>
+  <p class="qs">\(r\) and \(T\) must use the same unit. A monthly rate goes with a number of months; a daily rate goes with a number of days.</p>
+</div>
+
+<h3 id="f3a"><span class="num">3A</span>Perpetuity (same payment forever)</h3>
+<div class="formula">\[ PV = \frac{C}{r} \]</div>
+<div class="note"><b>Starting late?</b> The formula always gives the value <b>one year before the first payment</b>. If the first payment comes in year 10, \(C/r\) is the value at year 9. Then bring it back to today: divide by \((1+r)^9\).</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q10</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Project A pays Rs 500 forever starting next year. Project B pays Rs 1,000 forever, starting 10 years from today. If the interest rate is 10%, which project has a higher Present Value (PV) today?</p>
+  <ol class="opts"><li class="ok">Project A</li><li>Project B</li><li>Both have equal PV</li><li>Cannot be determined</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li><b>A:</b> \( 500 \div 0.10 = 5000 \)</li>
+      <li><b>B:</b> first payment in year 10, so \( 1000 \div 0.10 = 10{,}000 \) is its value at <b>year 9</b>.</li>
+      <li>Bring B back to today: \( 10{,}000 \div 1.1^9 = 10{,}000 \div 2.358 = 4241 \)</li>
+    </ol>
+    <p>5000 &gt; 4241. Answer: <b>A, Project A</b>. Bigger payments that start later can still be worth less today.</p>
+  </div>
+</div>
+
+<h3 id="f3b"><span class="num">3B</span>Growing perpetuity &amp; Gordon growth model (share price)</h3>
+<div class="formula">\[ PV = \frac{C_1}{r-g} \qquad\qquad \text{Share price: } P_0 = \frac{D_1}{r-g} \]</div>
+<div class="tbl"><table class="sym">
+  <tr><td>\(C_1\) or \(D_1\)</td><td>The payment (or dividend) <b>next year</b></td></tr>
+  <tr><td>\(g\)</td><td>How fast the payment grows each year</td></tr>
+  <tr><td>\(r\)</td><td>Interest rate / required rate of return (must be bigger than \(g\))</td></tr>
+</table></div>
+<div class="note"><b>Is a share cheap or expensive?</b> Use the formula to work out the fair price, then compare it with the market price.<br>
+Market price <b>below</b> the fair price → the share is <b>underpriced</b> → <b>buy</b>.<br>
+Market price <b>above</b> the fair price → the share is <b>overpriced</b> → <b>sell</b>.</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q255</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>What is the present value of a perpetuity that pays Rs 800 next year, grows at a rate of 2% per year thereafter and faces a cost of capital of 10% per year?</p>
+  <ol class="opts"><li>Rs 40,000</li><li class="ok">Rs 10,000</li><li>Rs 8,000</li><li>Rs 4,000</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol><li>\( PV = 800 \div (0.10 - 0.02) = 800 \div 0.08 = 10{,}000 \)</li></ol>
+    <p>Answer: <b>B, Rs 10,000</b>.</p>
+    <p class="why">Rs 8,000 is \(800 \div 0.10\), which forgets the growth. Rs 40,000 is \(800 \div 0.02\), which uses the wrong number.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q5</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>A company’s stock is currently trading at Rs 500. It is expected to pay a dividend of Rs 25 next year. If the required rate of return is 12% and the dividend is expected to grow at a constant rate, what is the implied growth rate according to the Gordon Growth Model?</p>
+  <ol class="opts"><li>5%</li><li>6%</li><li class="ok">7%</li><li>8%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( 500 = 25 \div (0.12 - g) \)</li>
+      <li>So \( 0.12 - g = 25 \div 500 = 0.05 \)</li>
+      <li>\( g = 0.12 - 0.05 = 0.07 = 7\% \)</li>
+    </ol>
+    <p>Answer: <b>C, 7%</b>.</p>
+    <p class="why">5% is the dividend yield (25 ÷ 500), not the growth rate.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q50</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>The PVC stock is trading at Rs 300 today. PVC is expected to pay a dividend of Rs 20 per share next year. If the growth rate of the PVC dividend is 3% every year and the appropriate rate of return is 10% per year, then according to the Gordon growth model</p>
+  <ol class="opts">
+    <li>The PVC stock is underpriced, and an investor should buy PVC shares.</li>
+    <li>The PVC stock is overpriced, and an investor should buy PVC shares.</li>
+    <li>The PVC stock is underpriced, and an investor should sell PVC shares.</li>
+    <li class="ok">The PVC stock is overpriced, and an investor should sell PVC shares.</li>
+  </ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Fair price \(= 20 \div (0.10 - 0.03) = 20 \div 0.07 = 285.71\)</li>
+      <li>Market price 300 is <b>more</b> than the fair price 285.71, so the share is overpriced.</li>
+    </ol>
+    <p>Answer: <b>D</b> (overpriced, sell).</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q257</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>The LIC stock is trading at Rs 800 today. LIC is expected to pay a dividend of Rs 50 per share next year. If the growth rate of the LIC dividend is 4% every year and the appropriate rate of return is 10% per year, then according to the Gordon growth model</p>
+  <ol class="opts">
+    <li class="ok">The LIC stock is underpriced, and an investor should buy LIC shares.</li>
+    <li>The LIC stock is overpriced, and an investor should buy LIC shares.</li>
+    <li>The LIC stock is underpriced, and an investor should sell LIC shares.</li>
+    <li>The LIC stock is overpriced, and an investor should sell LIC shares.</li>
+  </ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Fair price \(= 50 \div (0.10 - 0.04) = 50 \div 0.06 = 833.33\)</li>
+      <li>Market price 800 is <b>less</b> than the fair price 833.33, so the share is underpriced.</li>
+    </ol>
+    <p>Answer: <b>A</b> (underpriced, buy).</p>
+  </div>
+</div>
+
+<h3 id="f3c"><span class="num">3C</span>Annuity (same payment for a fixed number of periods)</h3>
+<div class="formula">\[ PV = C \times \frac{1-(1+r)^{-T}}{r} \]</div>
+<p class="qs">The part after \(C\) is called the <b>annuity factor</b>. Example: at 10% for 6 years it is 4.3553. That means 6 payments of Re 1 are worth Rs 4.36 today, not Rs 6.</p>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q60</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>What is the present value of an annuity that pays Rs 1,000 for next 25 years (beginning next year) and faces a cost of capital of 5%? (Nearest integer value)</p>
+  <ol class="opts"><li>Rs 25,000</li><li>Rs 18,394</li><li class="ok">Rs 14,094</li><li>Rs 12,500</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( 1.05^{25} = 3.3864 \), so \( 1.05^{-25} = 1 \div 3.3864 = 0.2953 \)</li>
+      <li>\( 1 - 0.2953 = 0.7047 \), and \( 0.7047 \div 0.05 = 14.094 \)</li>
+      <li>\( PV = 1000 \times 14.094 = 14{,}094 \)</li>
+    </ol>
+    <p>Answer: <b>C, Rs 14,094</b>.</p>
+    <p class="why">Rs 25,000 just adds 25 × 1000 with no discounting.</p>
+  </div>
+</div>
+
+<h3 id="f3d"><span class="num">3D</span>Loan EMI (annuity formula, solved for the payment)</h3>
+<div class="formula">\[ EMI = \frac{\text{Loan} \times r}{1-(1+r)^{-T}} \]</div>
+<p class="qs">This is the annuity formula from 3C with the loan amount as PV, rearranged to find \(C\). Use the <b>monthly</b> rate and the number of <b>months</b> (10 years = 120 months).</p>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q9</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>You take a loan of Rs 2,00,000 at a monthly interest rate of 1% to be repaid over 2 years (24 months). What is the Equated Monthly Instalment (EMI)?<br>(EMI is the promised equal monthly payment against a loan)</p>
+  <ol class="opts"><li>Rs 8,333</li><li class="ok">Rs 9,415</li><li>Rs 10,240</li><li>Rs 11,500</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Top: \( 2{,}00{,}000 \times 0.01 = 2000 \)</li>
+      <li>Bottom: \( 1.01^{24} = 1.2697 \), so \( 1 - 1 \div 1.2697 = 1 - 0.7876 = 0.2124 \)</li>
+      <li>\( EMI = 2000 \div 0.2124 = 9415 \)</li>
+    </ol>
+    <p>Answer: <b>B, Rs 9,415</b>.</p>
+    <p class="why">Rs 8,333 is 2,00,000 ÷ 24, which ignores interest.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q63</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Manish runs a private school in his town. He wants to start a bus service for the students. He goes to the bank and asks for a loan of Rs 8,00,000. The bank official tells him that the loan will have a monthly interest rate of 3% for 10 years. What would be the equated monthly instalment (EMI) that he will be paying each month for the next 10 years, beginning next month (Round off to nearest integer)?</p>
+  <ol class="opts"><li>Rs 12,000</li><li>Rs 22,746</li><li class="ok">Rs 24,711</li><li>Rs 28,437</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>10 years = 120 months. Top: \( 8{,}00{,}000 \times 0.03 = 24{,}000 \)</li>
+      <li>Bottom: \( 1.03^{120} = 34.711 \), so \( 1 - 1 \div 34.711 = 1 - 0.0288 = 0.9712 \)</li>
+      <li>\( EMI = 24{,}000 \div 0.9712 = 24{,}711.9 \)</li>
+    </ol>
+    <p>Answer: <b>C, Rs 24,711</b> (the closest option).</p>
+    <p class="why">The interest alone is 24,000 a month, so the EMI must be a bit more than 24,000. That quickly rules out A and B.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q269</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Suresh wants to build a house. He takes a home loan of Rs 5,00,000 at a 2% monthly interest rate for 10 years. What would be the equated monthly instalment (EMI) that he will be paying each month for the next 10 years, beginning next month (Round off to nearest integer)?</p>
+  <ol class="opts"><li>Rs 4,167</li><li>Rs 5,000</li><li>Rs 9,462</li><li class="ok">Rs 11,024</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>10 years = 120 months. Top: \( 5{,}00{,}000 \times 0.02 = 10{,}000 \)</li>
+      <li>Bottom: \( 1.02^{120} = 10.765 \), so \( 1 - 1 \div 10.765 = 1 - 0.0929 = 0.9071 \)</li>
+      <li>\( EMI = 10{,}000 \div 0.9071 = 11{,}024 \)</li>
+    </ol>
+    <p>Answer: <b>D, Rs 11,024</b>.</p>
+    <p class="why">The interest alone is 10,000 a month, so the EMI must be more than 10,000. Only D works. Rs 4,167 is 5,00,000 ÷ 120, which ignores interest.</p>
+  </div>
+</div>
+
+<h3 id="f3e"><span class="num">3E</span>SIP / saving every period (future value of an annuity)</h3>
+<div class="formula">\[ FV = C \times \frac{(1+r)^{T}-1}{r} \]</div>
+<p class="qs">This gives the money you will have at the <b>end</b>, after the last deposit. For daily saving, use the daily rate \(r \div 365\) and \(T\) = number of days.</p>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q24</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Systematic Investment Plan (SIP) is a popular method of investing by contributing a fixed amount of money at regular intervals. You start an SIP of Rs 24,000 per year (beginning next year) towards a fund that earns 7.5% annual interest. What will be the value of your investment after 20 years?</p>
+  <ol class="opts"><li>Rs 4,80,000</li><li class="ok">Rs 10,39,312</li><li>Rs 15,24,854</li><li>Rs 20,38,968</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( 1.075^{20} = 4.2479 \), so \( (4.2479 - 1) \div 0.075 = 43.305 \)</li>
+      <li>\( FV = 24{,}000 \times 43.305 = 10{,}39{,}312 \)</li>
+    </ol>
+    <p>Answer: <b>B, Rs 10,39,312</b>.</p>
+    <p class="why">Rs 4,80,000 is 24,000 × 20, which counts only the money you put in and no interest.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q15</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>You save Rs 50 every day and deposit it into a bank account at the end of the day. The bank pays 7.3% annual interest compounded daily. (Assume 1 year = 365 days). Which formula represents your balance after 1 year?</p>
+  <ol class="opts">
+    <li class="ok">\( 50 * \dfrac{(1+0.073/365)^{365}-1}{0.073/365} \)</li>
+    <li>\( 50 * (1+0.073)^{365} \)</li>
+    <li>\( 50 * 365 * (1+0.073) \)</li>
+    <li>\( 50 * \dfrac{0.073}{1-(1+0.073)^{-365}} \)</li>
+  </ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Daily deposits, so use the <b>daily</b> rate: \( r = 0.073 \div 365 \).</li>
+      <li>There are \(T = 365\) deposits. The SIP formula is \( C \times \frac{(1+r)^T - 1}{r} \) with \(C = 50\).</li>
+    </ol>
+    <p>That is exactly option <b>A</b>. (It works out to about Rs 18,931.)</p>
+    <p class="why">B grows a single Rs 50 at the full yearly rate for 365 years. C ignores compounding. D is the EMI formula, which is for loans.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q271</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>You believe in the power of compounding and decide to save Rs 100 per day by avoiding consumption of junk food. You deposit Rs 100 at the end of each day in a bank account that pays 3.65% annual interest rate compounded daily. How much money will you have in 2 years, assuming 365 days per year (use banking convention: daily interest rate = r/365, round off to the nearest integer)?</p>
+  <ol class="opts"><li>Rs 73,000</li><li class="ok">Rs 75,727</li><li>Rs 81,234</li><li>Rs 85,000</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Daily rate \( = 0.0365 \div 365 = 0.0001 \). Number of days \( T = 2 \times 365 = 730 \).</li>
+      <li>\( 1.0001^{730} = 1.075727 \), so \( (1.075727 - 1) \div 0.0001 = 757.27 \)</li>
+      <li>\( FV = 100 \times 757.27 = 75{,}727 \)</li>
+    </ol>
+    <p>Answer: <b>B, Rs 75,727</b>.</p>
+    <p class="why">Rs 73,000 is 100 × 730, which is only the money you put in.</p>
+  </div>
+</div>
+
+</section>
+<!-- ================= FAMILY 4 ================= -->
+<section class="fam fam4">
+<h2 id="f4"><span class="num">4</span>Returns over many years &amp; the yield curve</h2>
+<div class="big">
+  <p><b>The idea.</b> “\(1 + \text{rate}\)” is a <b>growth factor</b>. A 12% return means your money is multiplied by 1.12. Across several years, you <b>multiply</b> the growth factors. You never just add the rates.</p>
+</div>
+
+<h3 id="f4a"><span class="num">4A</span>Year-by-year returns (holding period return)</h3>
+<div class="formula">\[ (1+R_{\text{total}}) = (1+r_1)\times(1+r_2) \]</div>
+<p class="qs">To find the second year’s return: \( 1 + r_2 = (1+R_{\text{total}}) \div (1+r_1) \).</p>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q23</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>A project earns a total return of 34% over two years. If the return in the first year was 16%, what was the annual return in the second year?</p>
+  <ol class="opts"><li>18.0%</li><li>16.5%</li><li class="ok">15.5%</li><li>14.0%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( 1.34 = 1.16 \times (1 + r_2) \)</li>
+      <li>\( 1 + r_2 = 1.34 \div 1.16 = 1.155 \), so \( r_2 = 15.5\% \)</li>
+    </ol>
+    <p>Answer: <b>C, 15.5%</b>.</p>
+    <p class="why">18% is 34 − 16. Subtracting rates is wrong; you have to divide the growth factors.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q261</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>A project earns a total of 30% return in two years. If the annual return in the first year is 12%, then what is the annual return in the second year? (Round off to nearest integer)</p>
+  <ol class="opts"><li class="ok">16%</li><li>18%</li><li>20%</li><li>30%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( 1.30 = 1.12 \times (1 + r_2) \)</li>
+      <li>\( 1 + r_2 = 1.30 \div 1.12 = 1.1607 \), so \( r_2 \approx 16\% \)</li>
+    </ol>
+    <p>Answer: <b>A, 16%</b>.</p>
+    <p class="why">18% is 30 − 12, the same subtraction trap as Q23.</p>
+  </div>
+</div>
+
+<h3 id="f4b"><span class="num">4B</span>Future one-year rate (forward rate) from the yield curve</h3>
+<div class="formula">\[ (1+r_2)^2 = (1+r_1)\times(1+f) \]</div>
+<div class="tbl"><table class="sym">
+  <tr><td>\(r_1\)</td><td>Yearly rate on a 1-year bond (now to year 1)</td></tr>
+  <tr><td>\(r_2\)</td><td>Yearly rate on a 2-year bond (now to year 2)</td></tr>
+  <tr><td>\(f\)</td><td>The rate for the <b>second</b> year only (year 1 to year 2)</td></tr>
+</table></div>
+<p class="qs">The idea: a 2-year bond should grow your money as much as a 1-year bond followed by another 1-year bond.</p>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q65</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>On investigating the Indian yield curve, you find that annualized rate on 1-year bond (expiring in September 2026) is 4% and the annualized rate on 2-year bond (expiring in September 2027) is 4.5%. What would be the 1-year interest rate from September 2026 to September 2027?</p>
+  <ol class="opts"><li>4.28%</li><li>4.50%</li><li>4.72%</li><li class="ok">5.00%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>\( 1.045^2 = 1.092025 \)</li>
+      <li>\( 1 + f = 1.092025 \div 1.04 = 1.0500 \), so \( f = 5.00\% \)</li>
+    </ol>
+    <p>Answer: <b>D, 5.00%</b>.</p>
+    <p class="why">The 2-year average is 4.5%. The first year gave only 4%, so the second year must give more than 4.5% to make up for it.</p>
+  </div>
+</div>
+
+<h3 id="f4c"><span class="num">4C</span>Yield curve shapes</h3>
+<div class="card">
+  <p>The <b>yield curve</b> is a graph of the <b>interest rate</b> (up the side) against the <b>time to maturity</b> (along the bottom), for bonds of the same borrower.</p>
+  <div class="tbl"><table>
+    <tr><th>Shape</th><th>What it means</th></tr>
+    <tr><td>Upward sloping (normal)</td><td>Short-term rates are <b>lower</b> than long-term rates. This is the usual case.</td></tr>
+    <tr><td>Inverted (downward)</td><td>Short-term rates are <b>higher</b> than long-term rates. It is often a <b>warning of a recession</b>.</td></tr>
+    <tr><td>Flat</td><td>Short-term and long-term rates are about the same.</td></tr>
+    <tr><td>Humped</td><td>Medium-term rates are the highest.</td></tr>
+  </table></div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q8</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>Which of the following statements regarding the Yield Curve is FALSE?</p>
+  <ol class="opts">
+    <li>An inverted yield curve is often considered a predictor of recession.</li>
+    <li>A normal yield curve is upward sloping.</li>
+    <li class="ok">The yield curve plots the relationship between interest rates and default risk.</li>
+    <li>The yield curve plots the relationship between interest rates and time to maturity.</li>
+  </ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>The yield curve compares rates with <b>time to maturity</b>, not with default risk. So C is the false statement. Answer: <b>C</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q54</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>An upward sloping yield curve shows:</p>
+  <ol class="opts">
+    <li>Short-term rates are higher than long-term rates.</li>
+    <li class="ok">Short-term rates are lower than long-term rates.</li>
+    <li>Maturity is irrelevant.</li>
+    <li>It is one of the indications of upcoming recession.</li>
+  </ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>An upward slope means the rate rises as maturity gets longer, so short-term rates are lower. Answer: <b>B</b>. (A and D describe an <i>inverted</i> curve.)</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q268</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>What type of yield curve is often associated with an impeding recession?</p>
+  <ol class="opts"><li>Upward sloping yield curve</li><li class="ok">Inverted yield curve</li><li>Humped yield curve</li><li>Flat yield curve</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>When short-term rates rise above long-term rates (an inverted curve), it often signals a coming recession. Answer: <b>B, Inverted yield curve</b>.</p>
+  </div>
+</div>
+
+</section>
+<!-- ================= FAMILY 5 ================= -->
+<section class="fam fam5">
+<h2 id="f5"><span class="num">5</span>Bonds</h2>
+<div class="big">
+  <p><b>The idea.</b> A bond is a loan you give to a government or company. In return, they promise to pay you fixed amounts on fixed dates. That is why bonds are called <b>fixed income</b>. The price of a bond is just the <b>PV</b> of those promised payments (Family 2).</p>
+</div>
+
+<h3 id="f5a"><span class="num">5A</span>Bond price, yield and interest-rate changes</h3>
+<div class="formula">\[ \text{Price} = \frac{\text{Face value}}{(1+r)^T} \qquad\qquad \text{1-year yield: } r = \frac{\text{Face value}}{\text{Price}} - 1 \]</div>
+<div class="tbl"><table class="sym">
+  <tr><td>Zero-coupon bond</td><td>Pays only once, at the end (maturity). Nothing in between.</td></tr>
+  <tr><td>Face value</td><td>The amount paid at maturity</td></tr>
+  <tr><td>Basis point (bp)</td><td>1 bp = 0.01%. So 10 bp = 0.10% and 20 bp = 0.20%.</td></tr>
+  <tr><td>% change in price</td><td>\( (\text{new price} - \text{old price}) \div \text{old price} \)</td></tr>
+</table></div>
+<div class="note"><b>Key fact:</b> interest rate goes <b>up</b> → bond price goes <b>down</b>, and the other way round. Long-term bonds move more for the same rate change.</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q45</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>A zero-coupon bond with face value of Rs 5,000 matures in one year. Its price is Rs 4,500. What is the yield of the bond?</p>
+  <ol class="opts"><li>8.42%</li><li>10.00%</li><li class="ok">11.11%</li><li>9.00%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>You pay 4,500 today and get 5,000 after a year, so you gain 500.</li>
+      <li>\( r = 500 \div 4500 = 0.1111 = 11.11\% \)</li>
+    </ol>
+    <p>Answer: <b>C, 11.11%</b>.</p>
+    <p class="why">10% divides the gain by 5,000. Always divide by what you <b>paid</b> (4,500).</p>
+  </div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q19</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Consider a 10-year zero-coupon bond that promises to pay 1000 units after 10 years. The annualized interest rate is 5%. Suppose due to rising uncertainty, the prevailing interest rate increases by 20 basis points to 5.2%. What would be the impact on the value of the bond?</p>
+  <ol class="opts"><li>Increases by 2.88%</li><li>Decreases by 2.88%</li><li>Increases by 1.88%</li><li class="ok">Decreases by 1.88%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Old price: \( 1000 \div 1.05^{10} = 613.91 \)</li>
+      <li>New price: \( 1000 \div 1.052^{10} = 602.34 \)</li>
+      <li>Change: \( (602.34 - 613.91) \div 613.91 = -1.88\% \)</li>
+    </ol>
+    <p>Answer: <b>D, decreases by 1.88%</b>. The rate went up, so the price must go down. That rules out A and C straight away.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q64</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Consider a 20-year zero-coupon bond that promises to pay 1000 units after 20 years. The annualized interest rate is 2.5%. Suppose due to geopolitical tensions, the prevailing interest rate increases by 10 basis points to 2.6%. What would be the change in the value of the bond?</p>
+  <ol class="opts"><li>increases by 1.93%</li><li class="ok">decreases by 1.93%</li><li>increases by 1.20%</li><li>decreases by 1.20%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Old price: \( 1000 \div 1.025^{20} = 610.27 \)</li>
+      <li>New price: \( 1000 \div 1.026^{20} = 598.48 \)</li>
+      <li>Change: \( (598.48 - 610.27) \div 610.27 = -1.93\% \)</li>
+    </ol>
+    <p>Answer: <b>B, decreases by 1.93%</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q274</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>Which of the following statements is correct?</p>
+  <ol class="opts">
+    <li>Stocks of a company are an example of fixed income security.</li>
+    <li>The price of a bond increases if the interest rate offered on that bond increases.</li>
+    <li>Shares of a company have a maximum maturity of 5 years.</li>
+    <li class="ok">A zero-coupon bond pays only at maturity. There are no interim payments.</li>
+  </ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>A is wrong: bonds are fixed income. Stocks are not, because dividends can change.</li>
+      <li>B is wrong: when the interest rate goes up, the bond price goes <b>down</b>.</li>
+      <li>C is wrong: shares have no maturity date. They last as long as the company does.</li>
+      <li>D is right: a zero-coupon bond pays only once, at the end.</li>
+    </ol>
+    <p>Answer: <b>D</b>.</p>
+  </div>
+</div>
+
+<h3 id="f5b"><span class="num">5B</span>Maturity &amp; duration</h3>
+<div class="formula">\[ \text{Maturity} = \text{time of the last payment} \qquad\qquad D = \frac{t_1 C_1 + t_2 C_2 + \dots}{C_1 + C_2 + \dots} \]</div>
+<p class="qs"><b>Duration</b> is the average time you wait for your money. Each payment’s time is weighted by the size of the payment: multiply each time by its payment, add these up, then divide by the total of the payments. (This is the simple duration used in the course, with no discounting.) Duration is never more than maturity.</p>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q26</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Consider a bond that pays Rs 200 in 3 years, Rs 400 in 6 years, Rs 600 in 9 years, Rs 800 in 12 years and Rs 1000 in 15 years. What is the maturity of the bond?</p>
+  <ol class="opts"><li>3 years</li><li>9 years</li><li>11 years</li><li class="ok">15 years</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>The last payment comes at 15 years, so maturity = 15 years. Answer: <b>D</b>.</p>
+    <p class="why">11 years is the <b>duration</b> (33,000 ÷ 3,000). The question asks for maturity, not duration.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q11</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Calculate the duration of a bond that pays Rs 500 in 2 years and Rs 1,500 in 4 years.</p>
+  <ol class="opts"><li>3.0 years</li><li class="ok">3.5 years</li><li>4.0 years</li><li>2.5 years</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Top: \( 2 \times 500 + 4 \times 1500 = 1000 + 6000 = 7000 \)</li>
+      <li>Bottom: \( 500 + 1500 = 2000 \)</li>
+      <li>\( D = 7000 \div 2000 = 3.5 \) years</li>
+    </ol>
+    <p>Answer: <b>B, 3.5 years</b>.</p>
+    <p class="why">3.0 is the plain average of 2 and 4. That forgets that the year-4 payment is three times bigger.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q51</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>A bond pays 200 units in 1 year and 200 units in 5 years. What is the (simple) duration of the bond?</p>
+  <ol class="opts"><li>5 years</li><li class="ok">3 years</li><li>2.5 years</li><li>1 year</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Top: \( 1 \times 200 + 5 \times 200 = 1200 \). Bottom: \( 200 + 200 = 400 \)</li>
+      <li>\( D = 1200 \div 400 = 3 \) years</li>
+    </ol>
+    <p>Answer: <b>B, 3 years</b>. The two payments are equal, so the duration falls exactly halfway between 1 and 5.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q263</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Consider a bond that pays Rs 400 in 3 years and Rs 600 in 5 years. What are the maturity and duration of the bond, respectively?</p>
+  <ol class="opts"><li class="ok">5 years, 4.2 years</li><li>4.2 years, 5 years</li><li>5 years, 5 years</li><li>5 years, 3 years</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>Maturity: the last payment is at 5 years.</li>
+      <li>Duration: \( (3 \times 400 + 5 \times 600) \div (400 + 600) = 4200 \div 1000 = 4.2 \) years</li>
+    </ol>
+    <p>Answer: <b>A, 5 years, 4.2 years</b>. B has the right numbers in the wrong order. Duration can never be more than maturity.</p>
+  </div>
+</div>
+
+<h3 id="f5c"><span class="num">5C</span>Securitization: senior and junior bonds</h3>
+<div class="card">
+  <p>Put several risky bonds in a pool, then create two new bonds from it:</p>
+  <ul>
+    <li><b>Junior bond</b>: takes the loss first. It <b>defaults if even one</b> bond in the pool defaults.</li>
+    <li><b>Senior bond</b>: gets paid first. It <b>defaults only if all</b> bonds in the pool default.</li>
+  </ul>
+  <div class="tbl"><table>
+    <tr><th>How the bonds are linked</th><th>Junior defaults</th><th>Senior defaults (2 bonds)</th></tr>
+    <tr><td><b>Perfectly correlated</b> (\(\rho = 1\) or \(\gamma = 1\)): they always default together</td><td>\(p\)</td><td>\(p\)</td></tr>
+    <tr><td>Independent (not linked)</td><td>\(1-(1-p)^2\)</td><td>\(p^2\)</td></tr>
+  </table></div>
+  <div class="note"><b>All three past questions use perfectly correlated bonds.</b> In that case the answer is simply \(p\), the default chance of a single bond. Pooling does not reduce any risk when the bonds always fail together.</div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q20</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Your portfolio consists of two "Red" bonds, each with a face value of 100 and a probability of default p =10%. The bonds are perfectly correlated. Through securitization, you create a Senior Bond (paid first) and a Junior Bond (paid last). What is the probability that the Junior Bond defaults?</p>
+  <ol class="opts"><li>1%</li><li class="ok">10%</li><li>15%</li><li>20%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>Perfectly correlated means both bonds default together (10% chance) or neither does. The junior bond fails whenever a bond defaults, which is 10% of the time. Answer: <b>B, 10%</b>.</p>
+    <p class="why">1% (\(0.1^2\)) and about 20% would be correct only if the bonds were independent.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q52</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>In a 3-bond pool, each bond has 20% default probability, and these bonds are perfectly correlated to each other (\(\rho = 1\)). What is the probability that all three bonds default together (for a senior tranche)?</p>
+  <ol class="opts"><li>0.008</li><li>0.128</li><li class="ok">0.200</li><li>0.512</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>Perfectly correlated bonds always default together. So “all three default” happens exactly when one defaults: 20% = 0.200. Answer: <b>C</b>.</p>
+    <p class="why">0.008 = 0.2 × 0.2 × 0.2 would be right only for independent bonds.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q267</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Your portfolio consists of two blue bonds: each has a face value of 100 units and a probability of default \(p_b = 15\%\). The blue bonds are perfectly correlated with each other (\(\gamma = 1\)). Through securitization, you are able to create two new bonds with face value: a senior bond and a junior bond. When none of the blue bonds defaults, each of the new bonds is paid a face value of 100. If any one of the blue bonds defaults, the senior bond is paid the face value of 100 while the junior bond suffers the loss and is paid 0. In case both the blue bonds default, none of the new bonds pay off. What is the probability that the junior bond will result in default?</p>
+  <ol class="opts"><li>30%</li><li>22.5%</li><li class="ok">15%</li><li>2.25%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>With \(\gamma = 1\), both blue bonds default together (15%) or neither does (85%). The junior bond defaults whenever a blue bond defaults, so 15%. Answer: <b>C, 15%</b>.</p>
+    <p class="why">30% = 15 + 15 double-counts. 2.25% = 0.15² is the senior bond’s risk when the bonds are independent.</p>
+  </div>
+</div>
+
+<h3 id="f5d"><span class="num">5D</span>Credit rating agencies</h3>
+<div class="card">
+  <p>These agencies grade how safe a borrower is (AAA = safest). The big three are <b>Standard &amp; Poor’s (S&amp;P)</b>, <b>Moody’s</b> and <b>Fitch</b>. Indian agencies include CRISIL, ICRA and CARE.</p>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q276</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>Which of the following is not a credit rating agency?</p>
+  <ol class="opts"><li>Standard and Poor’s</li><li class="ok">Standard Chartered</li><li>Moody’s</li><li>Fitch</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>Standard Chartered is a <b>bank</b>, not a rating agency. Don’t mix it up with Standard &amp; Poor’s. Answer: <b>B</b>.</p>
+  </div>
+</div>
+
+</section>
+<!-- ================= FAMILY 6 ================= -->
+<section class="fam fam6">
+<h2 id="f6"><span class="num">6</span>Spending across two periods (intertemporal budget line)</h2>
+<div class="big">
+  <p><b>The idea.</b> You earn \(m_1\) now and \(m_2\) later. You can save (and earn interest) or borrow (and pay interest). Whatever you do, the <b>PV of what you spend</b> must equal the <b>PV of what you earn</b>.</p>
+</div>
+<div class="card">
+  <span class="lbl">Main formula</span>
+  <div class="formula">\[ c_1 + \frac{c_2}{1+r} = m_1 + \frac{m_2}{1+r} \]</div>
+  <div class="tbl"><table class="sym">
+    <tr><td>\(m_1, m_2\)</td><td>Money earned in period 1 and period 2</td></tr>
+    <tr><td>\(c_1, c_2\)</td><td>Money spent in period 1 and period 2</td></tr>
+    <tr><td>\(r\)</td><td>Interest rate</td></tr>
+  </table></div>
+  <p><b>Three things the questions ask:</b></p>
+  <ul class="recipe">
+    <li><b>Slope</b> of the budget line \(= -(1+r)\). It is always negative: spending 1 more today means giving up \((1+r)\) tomorrow.</li>
+    <li><b>Most you can spend now</b> (spend nothing later): \( c_1 = m_1 + \dfrac{m_2}{1+r} \)</li>
+    <li><b>Most you can spend later</b> (spend nothing now): \( c_2 = m_1(1+r) + m_2 \)</li>
+  </ul>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q16</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Sahil earns Rs 50,000 in period 1 and Rs 60,000 in period 2. The interest rate is 20%. What is the Maximum Consumption Sahil can have in Period 1 (if he consumes nothing in Period 2)?</p>
+  <ol class="opts"><li>Rs 1,10,000</li><li class="ok">Rs 1,00,000</li><li>Rs 95,000</li><li>Rs 50,000</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>He can borrow against his period-2 income. Its value today is \( 60{,}000 \div 1.2 = 50{,}000 \).</li>
+      <li>\( c_1 = 50{,}000 + 50{,}000 = 1{,}00{,}000 \)</li>
+    </ol>
+    <p>Answer: <b>B, Rs 1,00,000</b>.</p>
+    <p class="why">Rs 1,10,000 just adds 50,000 + 60,000 and forgets that future money must be discounted.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q59</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Assume there are two periods and prices of consumption good are the same (and equal to 1) in both periods. You earn Rs 10,000 in period 1 and Rs 12,000 in period 2. In each of the two periods, your spending is equal to earnings in that period. The slope of intertemporal budget constraint is −1.12, then what is the prevailing interest rate?</p>
+  <ol class="opts"><li>10%</li><li class="ok">12%</li><li>15%</li><li>Insufficient information</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol><li>Slope \(= -(1+r) = -1.12\), so \(1 + r = 1.12\) and \(r = 12\%\).</li></ol>
+    <p>Answer: <b>B, 12%</b>. The income numbers are extra information you don’t need.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q265</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>Assume Ramesh earns Rs 100 in period 1 and Rs 150 in period 2. He spends his earnings on consumption in both periods. The prices of consumption good in period 1 and period 2 are the same (equal to 1). If the prevailing interest rate is 25%, then the slope of the intertemporal budget constraint</p>
+  <ol class="opts"><li>1.25</li><li>0.80</li><li>-0.80</li><li class="ok">-1.25</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol><li>Slope \(= -(1+r) = -(1 + 0.25) = -1.25\)</li></ol>
+    <p>Answer: <b>D, −1.25</b>.</p>
+    <p class="why">The slope is always negative, which rules out A and B. −0.80 is \(-1 \div 1.25\), the formula turned upside down.</p>
+  </div>
+</div>
+
+</section>
+<!-- ================= FAMILY 7 ================= -->
+<section class="fam fam7">
+<h2 id="f7"><span class="num">7</span>Prices, inflation &amp; real values</h2>
+<div class="big">
+  <p><b>The idea.</b> “Nominal” means measured in rupees as they are. “Real” means after taking out the effect of rising prices. Real numbers tell you how much <b>more stuff</b> you can actually buy.</p>
+</div>
+
+<h3 id="f7a"><span class="num">7A</span>Real vs nominal interest rate (Fisher equation)</h3>
+<div class="formula">\[ (1+i) = (1+r)\times(1+\pi) \]</div>
+<div class="tbl"><table class="sym">
+  <tr><td>\(i\)</td><td>Nominal interest rate (what the bank quotes)</td></tr>
+  <tr><td>\(r\)</td><td>Real interest rate (growth in what you can actually buy)</td></tr>
+  <tr><td>\(\pi\)</td><td>(Expected) inflation rate</td></tr>
+</table></div>
+<p class="qs">This is the same “multiply growth factors” idea as Family 4. Whichever one is missing, divide: \( 1 + r = (1+i) \div (1+\pi) \) or \( 1 + \pi = (1+i) \div (1+r) \). The quick estimate \( r \approx i - \pi \) is close but is <b>not</b> what the answer keys use.</p>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q7</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>In the country of Westeros, the nominal interest rate is 10% and the expected inflation rate is 4%. What is the real interest rate in Westeros?</p>
+  <ol class="opts"><li>6.23%</li><li class="ok">5.77%</li><li>14.00%</li><li>9.60%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol><li>\( 1 + r = 1.10 \div 1.04 = 1.0577 \), so \( r = 5.77\% \)</li></ol>
+    <p>Answer: <b>B, 5.77%</b>. (The quick estimate 10 − 4 = 6% is not an option, so use the exact formula.)</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q53</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>If expected inflation equals nominal interest rate, then real interest rate is</p>
+  <ol class="opts"><li>Positive</li><li>Negative</li><li class="ok">Zero</li><li>One</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>If \(i = \pi\), then \(1 + r = (1+i) \div (1+i) = 1\), so \(r = 0\). Your money grows exactly as fast as prices, so you can’t buy any more than before. Answer: <b>C, Zero</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q266</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>In 2024, the nominal interest rate in the economy of Gondwana is 12%, and the real rate of interest is reported as 8%. What is the expected inflation rate for 2025 in the economy of Gondwana?</p>
+  <ol class="opts"><li class="ok">3.70%</li><li>5.42%</li><li>7.60%</li><li>11.61%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol><li>\( 1 + \pi = 1.12 \div 1.08 = 1.0370 \), so \( \pi = 3.70\% \)</li></ol>
+    <p>Answer: <b>A, 3.70%</b>. (The quick estimate 12 − 8 = 4% is not an option.)</p>
+  </div>
+</div>
+
+<h3 id="f7b"><span class="num">7B</span>CPI &amp; inflation rate</h3>
+<div class="formula">\[ CPI_{\text{year}} = \frac{\text{cost of the basket at this year's prices}}{\text{cost of the same basket at base-year prices}} \times 100 \qquad\quad \text{Inflation} = \frac{CPI_{\text{this year}}}{CPI_{\text{last year}}} - 1 \]</div>
+<ul class="recipe">
+  <li>Step 1: For each year, cost of basket = (quantity × price) added up over all items. The quantities stay the same every year.</li>
+  <li>Step 2: CPI = that year’s cost ÷ base-year cost × 100. The base year’s CPI is always 100.</li>
+  <li>Step 3: Inflation compares the two years asked about. Read carefully: is it versus the base year, or versus last year?</li>
+</ul>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q12</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>A consumer basket consists of 2 Apples and 4 Bananas.<br>2023 (base): Price of Apple = 10, Price of Banana = 5.<br>2024: Price of Apple = 12, Price of Banana = 6.<br>What is the inflation rate in 2024?</p>
+  <ol class="opts"><li>10%</li><li>15%</li><li class="ok">20%</li><li>25%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>2023 basket: \( 2 \times 10 + 4 \times 5 = 40 \)</li>
+      <li>2024 basket: \( 2 \times 12 + 4 \times 6 = 48 \)</li>
+      <li>Inflation: \( 48 \div 40 - 1 = 0.20 = 20\% \)</li>
+    </ol>
+    <p>Answer: <b>C, 20%</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q61</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>A typical consumer basket in the economy of Pangia Island consists of 1 unit of clothes, 3 units of food and 2 units of fuel. In 2022, the price of clothes was Rs 200 per unit, the price of food was Rs 50 per unit and the price of fuel was Rs 75 per unit. In 2023, the price of clothes was Rs 180 per unit, the price of food was Rs 70 per unit and the price of fuel was Rs 80 per unit. In 2024, the price of clothes was Rs 220 per unit, the price of food was Rs 80 per unit and the price of fuel was Rs 100 per unit. Considering 2022 as base year, what was the CPI in 2024? (Note: CPI in base year =100)</p>
+  <ol class="opts"><li>100</li><li>110</li><li>120</li><li class="ok">132</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>2022 basket: \( 1 \times 200 + 3 \times 50 + 2 \times 75 = 200 + 150 + 150 = 500 \)</li>
+      <li>2024 basket: \( 1 \times 220 + 3 \times 80 + 2 \times 100 = 220 + 240 + 200 = 660 \)</li>
+      <li>\( CPI_{2024} = 660 \div 500 \times 100 = 132 \)</li>
+    </ol>
+    <p>Answer: <b>D, 132</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q62</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>A typical consumer basket in the economy of Pangia Island consists of 1 unit of clothes, 3 units of food and 2 units of fuel. In 2022, the price of clothes was Rs 200 per unit, the price of food was Rs 50 per unit and the price of fuel was Rs 75 per unit. In 2023, the price of clothes was Rs 180 per unit, the price of food was Rs 70 per unit and the price of fuel was Rs 80 per unit. In 2024, the price of clothes was Rs 220 per unit, the price of food was Rs 80 per unit and the price of fuel was Rs 100 per unit. Considering 2022 as base year, what was the annual inflation rate in 2024 with respect to 2023?</p>
+  <ol class="opts"><li>10%</li><li>16%</li><li class="ok">20%</li><li>32%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>2023 basket: \( 180 + 3 \times 70 + 2 \times 80 = 180 + 210 + 160 = 550 \), so CPI = 110</li>
+      <li>2024 basket: 660, so CPI = 132 (from Q61)</li>
+      <li>Inflation 2023 → 2024: \( 132 \div 110 - 1 = 0.20 = 20\% \)</li>
+    </ol>
+    <p>Answer: <b>C, 20%</b>.</p>
+    <p class="why">32% compares 2024 with the base year 2022. The question asks about 2024 versus <b>2023</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q264</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>The table below relates to the economy of Galaland, where the typical consumer’s market basket consists of 1 pair of clothes and 3 packets of food.</p>
+  <div class="tbl"><table class="data">
+    <tr><th>Year</th><th>Price of a pair of clothes</th><th>Price of a packet of food</th></tr>
+    <tr><td>2017</td><td>Rs 400</td><td>Rs 30</td></tr>
+    <tr><td>2018</td><td>Rs 380</td><td>Rs 50</td></tr>
+    <tr><td>2019</td><td>Rs 390</td><td>Rs 70</td></tr>
+  </table></div>
+  <p>If the base year is 2017, then the economy’s inflation rate (as measured by CPI) in 2018 is</p>
+  <ol class="opts"><li class="ok">8.16%</li><li>22.45%</li><li>-8.16%</li><li>-22.45%</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol>
+      <li>2017 basket: \( 1 \times 400 + 3 \times 30 = 490 \)</li>
+      <li>2018 basket: \( 1 \times 380 + 3 \times 50 = 530 \)</li>
+      <li>Inflation: \( 530 \div 490 - 1 = 0.0816 = 8.16\% \)</li>
+    </ol>
+    <p>Answer: <b>A, 8.16%</b>. Clothes got cheaper, but food rose by more, so overall prices went up and the answer is positive.</p>
+    <p class="why">22.45% is 2019 versus 2017 (600 ÷ 490 − 1). The question asks about 2018.</p>
+  </div>
+</div>
+
+<h3 id="f7c"><span class="num">7C</span>Nominal GDP, real GDP &amp; GDP deflator</h3>
+<div class="formula">\[ \text{GDP deflator} = \frac{\text{Nominal GDP}}{\text{Real GDP}} \times 100 \qquad\Longleftrightarrow\qquad \text{Real GDP} = \frac{\text{Nominal GDP}}{\text{Deflator}} \times 100 \]</div>
+<div class="tbl"><table class="sym">
+  <tr><td>Nominal GDP</td><td>This year’s output valued at <b>this year’s</b> prices. It rises if prices rise <i>or</i> if output rises.</td></tr>
+  <tr><td>Real GDP</td><td>This year’s output valued at <b>base-year</b> prices. It rises only if output (quantity) rises.</td></tr>
+  <tr><td>Deflator</td><td>A price index. Base year = 100. A deflator of 120 means prices are 20% higher than in the base year.</td></tr>
+</table></div>
+<div class="note"><b>Shortcut:</b> if nominal GDP goes up but real GDP stays the same, then only <b>prices</b> went up.</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q3</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>The GDP deflator in the economy of Arrakis is 120 in the year 2025. If the Nominal GDP is reported as 24,000 units, what is the Real GDP?</p>
+  <ol class="opts"><li>28,800 units</li><li>22,000 units</li><li class="ok">20,000 units</li><li>18,000 units</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol><li>Real GDP \(= 24{,}000 \div 120 \times 100 = 20{,}000\)</li></ol>
+    <p>Answer: <b>C, 20,000 units</b>.</p>
+    <p class="why">28,800 multiplies by 1.2 instead of dividing.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p26">
+  <div class="qhead"><span class="qn">Q18</span><span class="paper p26">2026 T1</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>In 2024, the Nominal GDP of a country increased by 10%, while the Real GDP remained constant. This implies:</p>
+  <ol class="opts"><li>Production increased by 10%.</li><li class="ok">Prices increased by 10%.</li><li>Both prices and production increased by 5%.</li><li>The GDP deflator decreased.</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>Real GDP did not change, so production did not change. All of the 10% increase came from prices. Answer: <b>B</b>.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q49</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks · theory</span></div>
+  <p>If nominal GDP doubles, but real GDP remains unchanged, this means</p>
+  <ol class="opts"><li class="ok">Only prices increased.</li><li>Only quantity increased.</li><li>Both prices and quantity increased.</li><li>Neither prices nor quantity increased.</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <p>Real GDP is unchanged, so quantity is unchanged. The doubling came only from prices. Answer: <b>A</b>. This is the same idea as Q18.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25b">
+  <div class="qhead"><span class="qn">Q66</span><span class="paper p25b">2025 T3</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>In the economy of Moldova, the nominal GDP is accounted as 15,000 units and the real GDP is accounted as 12,000 units in 2024, then what is the value of GDP deflator in 2024 for Moldova?</p>
+  <p class="qs">Options are missing in the PDF.</p>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span> (worked out here; there is no official key)
+    <ol><li>Deflator \(= 15{,}000 \div 12{,}000 \times 100 = 125\)</li></ol>
+    <p>Answer: <b>125</b>. Prices are 25% higher than in the base year.</p>
+  </div>
+</div>
+
+<div class="q" data-p="p25a">
+  <div class="qhead"><span class="qn">Q272</span><span class="paper p25a">2025 T1</span><span class="tag">MCQ · 4 marks</span></div>
+  <p>In 2024, the GDP deflator is 112 in the economy of Pangia. If the nominal GDP is accounted as 14,000 units in 2024, then what is the value of real GDP in 2024 for Pangia?</p>
+  <ol class="opts"><li>15,680 units</li><li>14,000 units</li><li class="ok">12,500 units</li><li>10,000 units</li></ol>
+  <button class="reveal" type="button">Show answer</button>
+  <div class="sol"><span class="lbl">Solution</span>
+    <ol><li>Real GDP \(= 14{,}000 \div 112 \times 100 = 12{,}500\)</li></ol>
+    <p>Answer: <b>C, 12,500 units</b>.</p>
+    <p class="why">15,680 is 14,000 × 1.12, which multiplies when you should divide.</p>
+  </div>
+</div>
+
+</section>
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  var body=document.body, pbtn=document.getElementById('practiceBtn'), score=document.getElementById('score');
+  var tried=0, right=0;
+  function showScore(){ score.hidden=!body.classList.contains('practice'); score.innerHTML='<b>'+right+'</b> / '+tried+' right'; }
+  function resetQ(q){
+    q.classList.remove('shown'); delete q.dataset.tried;
+    q.querySelectorAll('.picked-bad').forEach(function(li){li.classList.remove('picked-bad');});
+    var b=q.querySelector('.reveal'); if(b) b.textContent='Show answer';
+  }
+  pbtn.addEventListener('click',function(){
+    var on=body.classList.toggle('practice');
+    pbtn.classList.toggle('on',on); pbtn.setAttribute('aria-pressed',on?'true':'false');
+    tried=0; right=0; document.querySelectorAll('.q').forEach(resetQ); showScore();
+  });
+  document.querySelectorAll('.reveal').forEach(function(b){
+    b.addEventListener('click',function(){
+      var q=b.closest('.q'); var s=q.classList.toggle('shown');
+      if(s && !q.dataset.tried){ q.dataset.tried='1'; tried++; showScore(); }
+      b.textContent=s?'Hide answer':'Show answer';
+    });
+  });
+  document.querySelectorAll('ol.opts li').forEach(function(li){
+    li.addEventListener('click',function(){
+      if(!body.classList.contains('practice')) return;
+      var q=li.closest('.q'); if(q.classList.contains('shown')) return;
+      var ok=li.classList.contains('ok');
+      if(!q.dataset.tried){ q.dataset.tried='1'; tried++; if(ok) right++; showScore(); }
+      if(ok){ q.classList.add('shown'); var b=q.querySelector('.reveal'); if(b) b.textContent='Hide answer'; }
+      else li.classList.add('picked-bad');
+    });
+  });
+  document.querySelectorAll('.pf').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var p=btn.getAttribute('data-p');
+      document.querySelectorAll('.pf').forEach(function(x){x.classList.toggle('on',x===btn);});
+      document.querySelectorAll('.q').forEach(function(q){ q.classList.toggle('hide', p!=='all' && q.getAttribute('data-p')!==p); });
+    });
+  });
+  var root=document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    if(!cur){cur=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+    root.setAttribute('data-theme',cur==='dark'?'light':'dark');
+  });
+  var links={}; document.querySelectorAll('nav.side a').forEach(function(a){links[a.dataset.t]=a;});
+  if('IntersectionObserver' in window){
+    var cur=null;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){
+        if(cur) cur.classList.remove('active'); cur=links[e.target.id]; if(cur) cur.classList.add('active');
+      }});
+    },{rootMargin:'0px 0px -75% 0px'});
+    document.querySelectorAll('h2[id],h3[id]').forEach(function(h){ if(links[h.id]) io.observe(h); });
+  }
+  window.addEventListener('DOMContentLoaded',function(){
+    if(window.renderMathInElement){
+      renderMathInElement(document.body,{delimiters:[
+        {left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+    }
+  });
+})();
+</script>
+</body>
+</html>

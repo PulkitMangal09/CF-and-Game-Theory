@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CF &amp; Game Theory Quiz Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<style>
+/* Layout: one centered column; one block per course, its exams as a row of tiles. */
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --ink:#141a22; --muted:#5a6472; --line:#dde2e8; --chip:#eef1f4;
+  --accent:#2b59c3; --cf:#1d4ed8; --gt:#0f766e;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1217; --surface:#161b22; --ink:#e6e9ee; --muted:#9aa4b2; --line:#29313b; --chip:#1f262f;
+    --accent:#8fb0ff; --cf:#93c5fd; --gt:#5eead4; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1217; --surface:#161b22; --ink:#e6e9ee; --muted:#9aa4b2; --line:#29313b; --chip:#1f262f;
+  --accent:#8fb0ff; --cf:#93c5fd; --gt:#5eead4; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding-block:48px 96px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+.kicker{margin:0 0 8px;font:600 .75rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{margin:0;font:700 clamp(2rem,5vw,2.9rem)/1.05 var(--display);letter-spacing:-.02em;text-wrap:balance}
+.course{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
+.course h2{margin:0 0 16px;font:700 clamp(1.4rem,3vw,1.75rem)/1.15 var(--display);letter-spacing:-.015em;
+  display:flex;gap:12px;align-items:center}
+.course h2::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--c)}
+.quizzes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.quiz{display:flex;flex-direction:column;gap:14px;min-height:118px;padding:16px 18px;border-radius:14px;
+  border:1px solid var(--line);background:var(--surface);color:inherit;text-decoration:none}
+.quiz .name{font:700 1.15rem/1.2 var(--display)}
+.quiz .state{margin-top:auto;font:600 .7rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+a.quiz{border-color:color-mix(in srgb, var(--c) 40%, var(--line));transition:border-color .15s,transform .15s}
+a.quiz:hover{border-color:var(--c);transform:translateY(-2px)}
+a.quiz .state{color:var(--c)}
+a.quiz .state::after{content:"  →"}
+div.quiz{background:transparent;border-style:dashed;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){a.quiz{transition:none} a.quiz:hover{transform:none}}
+@media (max-width:600px){.quizzes{grid-template-columns:1fr} .quiz{min-height:0;flex-direction:row;align-items:center} .quiz .state{margin:0 0 0 auto}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="kicker">Quiz prep</p>
+  <h1>Corporate Finance &amp; Game Theory</h1>
+  <div id="courses"></div>
+  <noscript><p><a href="corporate-finance/quiz-1/">Corporate Finance · Quiz 1</a></p></noscript>
+</main>
+<script>
+/* To publish a quiz: put its page at <course>/<quiz>/index.html and set ready: true below. */
+var COURSES = [
+  { name: "Corporate Finance", slug: "corporate-finance", color: "var(--cf)", quizzes: [
+    { name: "Quiz 1",   slug: "quiz-1",   ready: true  },
+    { name: "Quiz 2",   slug: "quiz-2",   ready: false },
+    { name: "End term", slug: "end-term", ready: false }
+  ]},
+  { name: "Game Theory", slug: "game-theory", color: "var(--gt)", quizzes: [
+    { name: "Quiz 1",   slug: "quiz-1",   ready: false },
+    { name: "Quiz 2",   slug: "quiz-2",   ready: false },
+    { name: "End term", slug: "end-term", ready: false }
+  ]}
+];
+(function(){
+  var root = document.getElementById("courses");
+  COURSES.forEach(function(c){
+    var sec = document.createElement("section");
+    sec.className = "course"; sec.style.setProperty("--c", c.color);
+    var h = document.createElement("h2"); h.textContent = c.name; sec.appendChild(h);
+    var grid = document.createElement("div"); grid.className = "quizzes";
+    c.quizzes.forEach(function(q){
+      var el = document.createElement(q.ready ? "a" : "div");
+      el.className = "quiz";
+      if (q.ready) el.href = c.slug + "/" + q.slug + "/";
+      var n = document.createElement("span"); n.className = "name"; n.textContent = q.name;
+      var s = document.createElement("span"); s.className = "state"; s.textContent = q.ready ? "Open" : "Coming soon";
+      el.appendChild(n); el.appendChild(s); grid.appendChild(el);
+    });
+    sec.appendChild(grid); root.appendChild(sec);
+  });
+})();
+</script>
+</body>
+</html>
